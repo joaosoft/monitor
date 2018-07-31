@@ -14,31 +14,31 @@ type DeleteIndexResponse struct {
 	Acknowledged bool `json:"acknowledged"`
 }
 
-type DeleteIndex struct {
+type DeleteIndexService struct {
 	client *Elastic
 	index  string
 	typ    string
 	method string
 }
 
-func NewDeleteIndex(client *Elastic) *DeleteIndex {
-	return &DeleteIndex{
+func NewDeleteIndexService(client *Elastic) *DeleteIndexService {
+	return &DeleteIndexService{
 		client: client,
 		method: http.MethodDelete,
 	}
 }
 
-func (e *DeleteIndex) Index(index string) *DeleteIndex {
+func (e *DeleteIndexService) Index(index string) *DeleteIndexService {
 	e.index = index
 	return e
 }
 
-func (e *DeleteIndex) Type(typ string) *DeleteIndex {
+func (e *DeleteIndexService) Type(typ string) *DeleteIndexService {
 	e.typ = typ
 	return e
 }
 
-func (e *DeleteIndex) Execute() error {
+func (e *DeleteIndexService) Execute() error {
 
 	// delete data from elastic
 	var query string

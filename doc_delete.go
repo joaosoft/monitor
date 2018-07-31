@@ -19,7 +19,7 @@ type DeleteHit struct {
 	Result string `json:"result"`
 }
 
-type Delete struct {
+type DeleteService struct {
 	client *Elastic
 	index  string
 	typ    string
@@ -27,29 +27,29 @@ type Delete struct {
 	method string
 }
 
-func NewDelete(client *Elastic) *Delete {
-	return &Delete{
+func NewDeleteService(client *Elastic) *DeleteService {
+	return &DeleteService{
 		client: client,
 		method: http.MethodDelete,
 	}
 }
 
-func (e *Delete) Index(index string) *Delete {
+func (e *DeleteService) Index(index string) *DeleteService {
 	e.index = index
 	return e
 }
 
-func (e *Delete) Type(typ string) *Delete {
+func (e *DeleteService) Type(typ string) *DeleteService {
 	e.typ = typ
 	return e
 }
 
-func (e *Delete) Id(id string) *Delete {
+func (e *DeleteService) Id(id string) *DeleteService {
 	e.id = id
 	return e
 }
 
-func (e *Delete) Execute() error {
+func (e *DeleteService) Execute() error {
 
 	// delete data from elastic
 	var query string

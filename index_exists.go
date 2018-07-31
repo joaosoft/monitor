@@ -10,26 +10,26 @@ import (
 	"github.com/joaosoft/errors"
 )
 
-type ExistsIndex struct {
+type ExistsIndexService struct {
 	client *Elastic
 	index  string
 	body   []byte
 	method string
 }
 
-func NewExistsIndex(e *Elastic) *ExistsIndex {
-	return &ExistsIndex{
+func NewExistsIndexService(e *Elastic) *ExistsIndexService {
+	return &ExistsIndexService{
 		client: e,
 		method: http.MethodHead,
 	}
 }
 
-func (e *ExistsIndex) Index(index string) *ExistsIndex {
+func (e *ExistsIndexService) Index(index string) *ExistsIndexService {
 	e.index = index
 	return e
 }
 
-func (e *ExistsIndex) Body(body interface{}) *ExistsIndex {
+func (e *ExistsIndexService) Body(body interface{}) *ExistsIndexService {
 	switch v := body.(type) {
 	case []byte:
 		e.body = v
@@ -39,7 +39,7 @@ func (e *ExistsIndex) Body(body interface{}) *ExistsIndex {
 	return e
 }
 
-func (e *ExistsIndex) Execute() (int, error) {
+func (e *ExistsIndexService) Execute() (int, error) {
 
 	// create data on elastic
 	reader := bytes.NewReader(e.body)

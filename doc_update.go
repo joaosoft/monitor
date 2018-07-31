@@ -21,7 +21,7 @@ type UpdateResponse struct {
 	Created bool   `json:"created"`
 }
 
-type Update struct {
+type UpdateService struct {
 	client *Elastic
 	index  string
 	typ    string
@@ -30,34 +30,34 @@ type Update struct {
 	method string
 }
 
-func NewUpdate(e *Elastic) *Update {
-	return &Update{
+func NewUpdateService(e *Elastic) *UpdateService {
+	return &UpdateService{
 		client: e,
 		method: http.MethodPut,
 	}
 }
 
-func (e *Update) Index(index string) *Update {
+func (e *UpdateService) Index(index string) *UpdateService {
 	e.index = index
 	return e
 }
 
-func (e *Update) Type(typ string) *Update {
+func (e *UpdateService) Type(typ string) *UpdateService {
 	e.typ = typ
 	return e
 }
 
-func (e *Update) Id(id string) *Update {
+func (e *UpdateService) Id(id string) *UpdateService {
 	e.id = id
 	return e
 }
 
-func (e *Update) Body(body interface{}) *Update {
+func (e *UpdateService) Body(body interface{}) *UpdateService {
 	e.body, _ = json.Marshal(body)
 	return e
 }
 
-func (e *Update) Execute() (string, error) {
+func (e *UpdateService) Execute() (string, error) {
 
 	// create data on elastic
 	reader := bytes.NewReader(e.body)

@@ -47,38 +47,38 @@ func NewElastic(options ...ElasticOption) *Elastic {
 	return elastic
 }
 
-func (e *Elastic) Count() *Count {
-	return NewCount(e)
+func (e *Elastic) Count() *CountService {
+	return NewCountService(e)
 }
 
-func (e *Elastic) Create() *Create {
-	return NewCreate(e)
+func (e *Elastic) Create() *CreateService {
+	return NewCreateService(e)
 }
 
-func (e *Elastic) Update() *Update {
-	return NewUpdate(e)
+func (e *Elastic) Update() *UpdateService {
+	return NewUpdateService(e)
 }
 
-func (elastic *Elastic) Delete() *Delete {
-	return NewDelete(elastic)
+func (elastic *Elastic) Delete() *DeleteService {
+	return NewDeleteService(elastic)
 }
 
-func (e *Elastic) Search() *Search {
-	return NewSearch(e)
+func (e *Elastic) Search() *SearchService {
+	return NewSearchService(e)
 }
 
-func (e *Elastic) ExistsIndex() *ExistsIndex {
-	return NewExistsIndex(e)
+func (e *Elastic) ExistsIndex() *ExistsIndexService {
+	return NewExistsIndexService(e)
 }
 
-func (e *Elastic) CreateIndex() *CreateIndex {
-	return NewCreateIndex(e)
+func (e *Elastic) CreateIndex() *CreateIndexService {
+	return NewCreateIndexService(e)
 }
 
-func (e *Elastic) UpdateIndex() *CreateIndex {
-	return NewCreateIndex(e)
+func (e *Elastic) UpdateIndex() *CreateIndexService {
+	return NewCreateIndexService(e)
 }
 
-func (e *Elastic) DeleteIndex() *DeleteIndex {
-	return NewDeleteIndex(e)
+func (e *Elastic) DeleteIndex() *DeleteIndexService {
+	return NewDeleteIndexService(e)
 }

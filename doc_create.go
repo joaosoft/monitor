@@ -21,7 +21,7 @@ type CreateResponse struct {
 	Created bool   `json:"created"`
 }
 
-type Create struct {
+type CreateService struct {
 	client *Elastic
 	index  string
 	typ    string
@@ -30,29 +30,29 @@ type Create struct {
 	method string
 }
 
-func NewCreate(e *Elastic) *Create {
-	return &Create{
+func NewCreateService(e *Elastic) *CreateService {
+	return &CreateService{
 		client: e,
 		method: http.MethodPost,
 	}
 }
 
-func (e *Create) Index(index string) *Create {
+func (e *CreateService) Index(index string) *CreateService {
 	e.index = index
 	return e
 }
 
-func (e *Create) Type(typ string) *Create {
+func (e *CreateService) Type(typ string) *CreateService {
 	e.typ = typ
 	return e
 }
 
-func (e *Create) Id(id string) *Create {
+func (e *CreateService) Id(id string) *CreateService {
 	e.id = id
 	return e
 }
 
-func (e *Create) Body(body interface{}) *Create {
+func (e *CreateService) Body(body interface{}) *CreateService {
 	switch v := body.(type) {
 	case []byte:
 		e.body = v
@@ -62,7 +62,7 @@ func (e *Create) Body(body interface{}) *Create {
 	return e
 }
 
-func (e *Create) Execute() (string, error) {
+func (e *CreateService) Execute() (string, error) {
 
 	// create data on elastic
 	reader := bytes.NewReader(e.body)

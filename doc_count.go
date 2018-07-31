@@ -17,7 +17,7 @@ type CountResponse struct {
 	Count int64 `json:"count"`
 }
 
-type Count struct {
+type CountService struct {
 	client *Elastic
 	index  string
 	typ    string
@@ -25,24 +25,24 @@ type Count struct {
 	method string
 }
 
-func NewCount(client *Elastic) *Count {
-	return &Count{
+func NewCountService(client *Elastic) *CountService {
+	return &CountService{
 		client: client,
 		method: http.MethodGet,
 	}
 }
 
-func (e *Count) Index(index string) *Count {
+func (e *CountService) Index(index string) *CountService {
 	e.index = index
 	return e
 }
 
-func (e *Count) Type(typ string) *Count {
+func (e *CountService) Type(typ string) *CountService {
 	e.typ = typ
 	return e
 }
 
-func (e *Count) Query(query string) *Count {
+func (e *CountService) Query(query string) *CountService {
 	e.query = query
 	return e
 }
@@ -51,7 +51,7 @@ type CountTemplate struct {
 	Data interface{} `json:"data,omitempty"`
 }
 
-func (e *Count) Template(path, name string, data *CountTemplate, reload bool) *Count {
+func (e *CountService) Template(path, name string, data *CountTemplate, reload bool) *CountService {
 	key := fmt.Sprintf("%s/%s", path, name)
 
 	var result bytes.Buffer
@@ -84,7 +84,7 @@ func (e *Count) Template(path, name string, data *CountTemplate, reload bool) *C
 	return e
 }
 
-func (e *Count) Execute() (int64, error) {
+func (e *CountService) Execute() (int64, error) {
 
 	if e.query != "" {
 		e.method = http.MethodPost

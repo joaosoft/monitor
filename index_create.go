@@ -15,26 +15,26 @@ type CreateIndexResponse struct {
 	Acknowledged bool `json:"acknowledged"`
 }
 
-type CreateIndex struct {
+type CreateIndexService struct {
 	client *Elastic
 	index  string
 	body   []byte
 	method string
 }
 
-func NewCreateIndex(e *Elastic) *CreateIndex {
-	return &CreateIndex{
+func NewCreateIndexService(e *Elastic) *CreateIndexService {
+	return &CreateIndexService{
 		client: e,
 		method: http.MethodPut,
 	}
 }
 
-func (e *CreateIndex) Index(index string) *CreateIndex {
+func (e *CreateIndexService) Index(index string) *CreateIndexService {
 	e.index = index
 	return e
 }
 
-func (e *CreateIndex) Body(body interface{}) *CreateIndex {
+func (e *CreateIndexService) Body(body interface{}) *CreateIndexService {
 	switch v := body.(type) {
 	case []byte:
 		e.body = v
@@ -44,7 +44,7 @@ func (e *CreateIndex) Body(body interface{}) *CreateIndex {
 	return e
 }
 
-func (e *CreateIndex) Execute() error {
+func (e *CreateIndexService) Execute() error {
 
 	// create data on elastic
 	reader := bytes.NewReader(e.body)

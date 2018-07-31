@@ -38,7 +38,7 @@ type SearchError struct {
 	Reason string `json:"reason"`
 }
 
-type Search struct {
+type SearchService struct {
 	client *Elastic
 	index  string
 	typ    string
@@ -48,34 +48,34 @@ type Search struct {
 	method string
 }
 
-func NewSearch(client *Elastic) *Search {
-	return &Search{
+func NewSearchService(client *Elastic) *SearchService {
+	return &SearchService{
 		client: client,
 		method: http.MethodGet,
 	}
 }
 
-func (e *Search) Index(index string) *Search {
+func (e *SearchService) Index(index string) *SearchService {
 	e.index = index
 	return e
 }
 
-func (e *Search) Type(typ string) *Search {
+func (e *SearchService) Type(typ string) *SearchService {
 	e.typ = typ
 	return e
 }
 
-func (e *Search) Id(id string) *Search {
+func (e *SearchService) Id(id string) *SearchService {
 	e.id = id
 	return e
 }
 
-func (e *Search) Query(query string) *Search {
+func (e *SearchService) Query(query string) *SearchService {
 	e.query = query
 	return e
 }
 
-func (e *Search) Object(object interface{}) *Search {
+func (e *SearchService) Object(object interface{}) *SearchService {
 	e.object = object
 	return e
 }
@@ -86,7 +86,7 @@ type SearchTemplate struct {
 	Size int         `json:"size,omitempty"`
 }
 
-func (e *Search) Template(path, name string, data *SearchTemplate, reload bool) *Search {
+func (e *SearchService) Template(path, name string, data *SearchTemplate, reload bool) *SearchService {
 	key := fmt.Sprintf("%s/%s", path, name)
 
 	var result bytes.Buffer
@@ -119,7 +119,7 @@ func (e *Search) Template(path, name string, data *SearchTemplate, reload bool) 
 	return e
 }
 
-func (e *Search) Execute() error {
+func (e *SearchService) Execute() error {
 
 	if e.query != "" {
 		e.method = http.MethodPost
