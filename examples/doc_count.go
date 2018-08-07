@@ -18,7 +18,7 @@ func countOnIndex(name string) int64 {
 	dir, _ := os.Getwd()
 	count, err := client.Count().
 		Index("persons").
-		Template(dir+"/examples/templates", "get.example.count.template", &d1, false).
+		Template(dir+"/examples/templates", "email.template", &d1, false).
 		Execute()
 
 	if err != nil {
@@ -39,7 +39,7 @@ func countOnDocument(name string) int64 {
 	count, err := client.Count().
 		Index("persons").
 		Type("person").
-		Template(dir+"/examples/templates", "get.example.count.template", &d1, false).
+		Template(dir+"/examples/templates", "email.template", &d1, false).
 		Execute()
 
 	if err != nil {
