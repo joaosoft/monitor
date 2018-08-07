@@ -75,24 +75,24 @@ func (e *CreateService) Execute() (string, error) {
 
 	request, err := http.NewRequest(e.method, fmt.Sprintf("%s/%s/%s%s", e.client.config.Endpoint, e.index, e.typ, query), reader)
 	if err != nil {
-		return "", errors.New(err)
+		return "", errors.New("0", err)
 	}
 
 	response, err := http.DefaultClient.Do(request)
 	if err != nil {
-		return "", errors.New(err)
+		return "", errors.New("0", err)
 	}
 	defer response.Body.Close()
 
 	// unmarshal data
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return "", errors.New(err)
+		return "", errors.New("0", err)
 	}
 
 	elasticResponse := CreateResponse{}
 	if err = json.Unmarshal(body, &elasticResponse); err != nil {
-		return "", errors.New(err)
+		return "", errors.New("0", err)
 	}
 
 	if !elasticResponse.Created && elasticResponse.Result != "updated" {

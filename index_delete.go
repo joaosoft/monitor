@@ -48,7 +48,7 @@ func (e *DeleteIndexService) Execute() error {
 
 	request, err := http.NewRequest(e.method, fmt.Sprintf("%s/%s%s", e.client.config.Endpoint, e.index, query), nil)
 	if err != nil {
-		return errors.New(err)
+		return errors.New("0", err)
 	}
 
 	response, err := http.DefaultClient.Do(request)
