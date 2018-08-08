@@ -48,7 +48,7 @@ func (e *DeleteIndexService) Execute() error {
 
 	request, err := http.NewRequest(e.method, fmt.Sprintf("%s/%s%s", e.client.config.Endpoint, e.index, query), nil)
 	if err != nil {
-		return errors.New("0", err)
+		return errors.New("0","0", err)
 	}
 
 	response, err := http.DefaultClient.Do(request)
@@ -61,7 +61,7 @@ func (e *DeleteIndexService) Execute() error {
 	json.Unmarshal(body, &elasticResponse)
 
 	if !elasticResponse.Acknowledged {
-		return errors.New("couldn't delete the index")
+		return errors.New("0","couldn't delete the index")
 	}
 
 	return nil

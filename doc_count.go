@@ -102,13 +102,13 @@ func (e *CountService) Execute() (int64, error) {
 
 	request, err := http.NewRequest(e.method, fmt.Sprintf("%s/%s%s", e.client.config.Endpoint, e.index, q), reader)
 	if err != nil {
-		return 0, errors.New("0", err)
+		return 0, errors.New("0","0", err)
 	}
 
 	response, err := http.DefaultClient.Do(request)
 	if err != nil {
 		log.Error(err)
-		return 0, errors.New("0", err)
+		return 0, errors.New("0","0", err)
 	}
 	defer response.Body.Close()
 
@@ -116,13 +116,13 @@ func (e *CountService) Execute() (int64, error) {
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Error(err)
-		return 0, errors.New("0", err)
+		return 0, errors.New("0","0", err)
 	}
 
 	elasticResponse := CountResponse{}
 	if err := json.Unmarshal(body, &elasticResponse); err != nil {
 		log.Error(err)
-		return 0, errors.New("0", err)
+		return 0, errors.New("0","0", err)
 	}
 
 	return elasticResponse.Count, nil

@@ -64,7 +64,7 @@ func (e *CreateIndexService) Execute() error {
 	json.Unmarshal(body, &elasticResponse)
 
 	if !elasticResponse.Acknowledged {
-		return errors.New("couldn't create the index")
+		return errors.New("0","couldn't create the index")
 	}
 
 	return nil

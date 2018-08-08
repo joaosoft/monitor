@@ -76,7 +76,7 @@ func (e *CreateScroll) Execute() (string, error) {
 	json.Unmarshal(body, &elasticResponse)
 
 	if !elasticResponse.Created && elasticResponse.Result != "updated" {
-		return "", errors.New("couldn't create the scroll")
+		return "", errors.New("0","couldn't create the scroll")
 	}
 
 	return elasticResponse.ID, nil
