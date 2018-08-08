@@ -46,7 +46,7 @@
   branch = "master"
   name = "github.com/joaosoft/errors"
   packages = ["."]
-  revision = "f46e81c553ca6700877861d3020e495d56cc2291"
+  revision = "ad31744ed744f352fb6b72a98c5067aaf2ee9201"
 
 [[projects]]
   branch = "master"
@@ -125,12 +125,6 @@
   packages = ["."]
   revision = "c01d1270ff3e442a8a57cddc1c92dc1138598194"
   version = "v1.2.0"
-
-[[projects]]
-  name = "github.com/pkg/errors"
-  packages = ["."]
-  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
-  version = "v0.8.0"
 
 [[projects]]
   branch = "master"
@@ -232,6 +226,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "352f53a01848db35c9bda48af400dda48a5db6a630ff8df73c89fd9fcff252d5"
+  inputs-digest = "168862aa23eede1284afc6b4a8f92dd09c33f5bc04c7ad2b182082b4c4175fc1"
   solver-name = "gps-cdcl"
   solver-version = 1

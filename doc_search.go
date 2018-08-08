@@ -141,13 +141,13 @@ func (e *SearchService) Execute() error {
 
 	request, err := http.NewRequest(e.method, fmt.Sprintf("%s/%s%s", e.client.config.Endpoint, e.index, q), reader)
 	if err != nil {
-		return errors.New("0","0", err)
+		return errors.New("0", err)
 	}
 
 	response, err := http.DefaultClient.Do(request)
 	if err != nil {
 		log.Error(err)
-		return errors.New("0","0", err)
+		return errors.New("0", err)
 	}
 	defer response.Body.Close()
 
@@ -155,7 +155,7 @@ func (e *SearchService) Execute() error {
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Error(err)
-		return errors.New("0","0", err)
+		return errors.New("0", err)
 	}
 
 	var hit []byte
@@ -164,19 +164,19 @@ func (e *SearchService) Execute() error {
 		elasticResponse := SearchHit{}
 		if err := json.Unmarshal(body, &elasticResponse); err != nil {
 			log.Error(err)
-			return errors.New("0","0", err)
+			return errors.New("0", err)
 		}
 
 		hit, err = json.Marshal(elasticResponse.Source)
 		if err != nil {
 			log.Error(err)
-			return errors.New("0","0", err)
+			return errors.New("0", err)
 		}
 	} else {
 		elasticResponse := SearchResponse{}
 		if err := json.Unmarshal(body, &elasticResponse); err != nil {
 			log.Error(err)
-			return errors.New("0","0", err)
+			return errors.New("0", err)
 		}
 
 		if elasticResponse.Error != nil {
@@ -190,12 +190,12 @@ func (e *SearchService) Execute() error {
 
 		hit, err = json.Marshal(rawHits)
 		if err != nil {
-			return errors.New("0","0", err)
+			return errors.New("0", err)
 		}
 	}
 
 	if err := json.Unmarshal(hit, e.object); err != nil {
-		return errors.New("0","0", err)
+		return errors.New("0", err)
 	}
 
 	return nil

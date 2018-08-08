@@ -37,10 +37,6 @@
   branch = "master"
   name = "github.com/joaosoft/manager"
 
-[[constraint]]
-  name = "github.com/pkg/errors"
-  version = "0.8.0"
-
 [prune]
   go-tests = true
   unused-packages = true
