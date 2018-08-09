@@ -1,7 +1,7 @@
-# elastic
-[![Build Status](https://travis-ci.org/joaosoft/elastic.svg?branch=master)](https://travis-ci.org/joaosoft/elastic) | [![codecov](https://codecov.io/gh/joaosoft/elastic/branch/master/graph/badge.svg)](https://codecov.io/gh/joaosoft/elastic) | [![Go Report Card](https://goreportcard.com/badge/github.com/joaosoft/elastic)](https://goreportcard.com/report/github.com/joaosoft/elastic) | [![GoDoc](https://godoc.org/github.com/joaosoft/elastic?status.svg)](https://godoc.org/github.com/joaosoft/elastic)
+# monitor
+[![Build Status](https://travis-ci.org/joaosoft/monitor.svg?branch=master)](https://travis-ci.org/joaosoft/monitor) | [![codecov](https://codecov.io/gh/joaosoft/monitor/branch/master/graph/badge.svg)](https://codecov.io/gh/joaosoft/monitor) | [![Go Report Card](https://goreportcard.com/badge/github.com/joaosoft/monitor)](https://goreportcard.com/report/github.com/joaosoft/monitor) | [![GoDoc](https://godoc.org/github.com/joaosoft/monitor?status.svg)](https://godoc.org/github.com/joaosoft/monitor)
 
-A simple and fast elastic client.
+A simple and fast monitor client.
 
 ## Support for 
 > Create / Exists / Delete index (with or without mapping)
@@ -21,11 +21,11 @@ Project dependencies are managed using Dep. Read more about [Dep](https://github
 
 >### Go
 ```
-go get github.com/joaosoft/elastic
+go get github.com/joaosoft/monitor
 ```
 
 ## Usage 
-This examples are available in the project at [elastic/examples](https://github.com/joaosoft/elastic/tree/master/examples)
+This examples are available in the project at [monitor/examples](https://github.com/joaosoft/monitor/tree/master/examples)
 
 ### Templates
 #### get.example.1.template
@@ -68,11 +68,11 @@ This examples are available in the project at [elastic/examples](https://github.
 ### Code
 ```go
 // create a client
-import "github.com/joaosoft/elastic"
+import "github.com/joaosoft/monitor"
 
-client := elastic.NewClient("http://localhost:9200")
+client := monitor.NewClient("http://localhost:9200")
 // you can define the configuration without having a configuration file
-//client1 := elastic.NewElastic(elastic.WithConfiguration(elastic.NewConfig("http://localhost:9200")))
+//client1 := monitor.NewMonitor(monitor.WithConfiguration(monitor.NewConfig("http://localhost:9200")))
 
 type person struct {
 	Name string `json:"name"`
@@ -146,7 +146,7 @@ if err != nil {
 
 
 // search a document with a template
-d1 := elastic.TemplateData{Data: map[string]interface{}{"name": name}}
+d1 := monitor.TemplateData{Data: map[string]interface{}{"name": name}}
 
 dir, _ := os.Getwd()
 err := client.Search().

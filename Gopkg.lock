@@ -46,19 +46,25 @@
   branch = "master"
   name = "github.com/joaosoft/errors"
   packages = ["."]
-  revision = "ad31744ed744f352fb6b72a98c5067aaf2ee9201"
+  revision = "6fd05bc0ae5d976dba85b2254d2fdbc2bdec3a32"
 
 [[projects]]
   branch = "master"
   name = "github.com/joaosoft/logger"
   packages = ["."]
-  revision = "edd89dd7dfa181b5d173966fd7d659ab10dee5c3"
+  revision = "aff7dfeadcc11d28cb5a959c3100ef8f0ab2926f"
 
 [[projects]]
   branch = "master"
   name = "github.com/joaosoft/manager"
   packages = ["."]
-  revision = "a1ae2d27aa1e959094127244a0011f5b5eb4905c"
+  revision = "a72f07282bee7e6cf061f4e45abc12862e8bb8b7"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/joaosoft/validator"
+  packages = ["."]
+  revision = "d9efbf28a8b6637bcb9e87b132d807174cebc5fb"
 
 [[projects]]
   branch = "master"
@@ -156,8 +162,8 @@
 [[projects]]
   name = "github.com/spf13/pflag"
   packages = ["."]
-  revision = "583c0c0531f06d5278b7d917446061adc344b5cd"
-  version = "v1.0.1"
+  revision = "9a97c102cda95a86cec2345a6f09f55a939babf5"
+  version = "v1.0.2"
 
 [[projects]]
   name = "github.com/spf13/viper"
@@ -190,13 +196,13 @@
     "acme",
     "acme/autocert"
   ]
-  revision = "f027049dab0ad238e394a753dba2d14753473a04"
+  revision = "de0752318171da717af4ce24d0a2e8626afaeb11"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "acbc56fc7007d2a01796d5bde54f39e3b3e95945"
+  revision = "904bdc257025c7b3f43c19360ad3ab85783fad78"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -226,6 +232,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "168862aa23eede1284afc6b4a8f92dd09c33f5bc04c7ad2b182082b4c4175fc1"
+  inputs-digest = "7d921b7bf58e9aa2ec4c7b92d653f52dc429648f61e9c4d2b06fce026d35726b"
   solver-name = "gps-cdcl"
   solver-version = 1

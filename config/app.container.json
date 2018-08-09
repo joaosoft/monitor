@@ -1,6 +1,6 @@
 {
-  "elastic": {
-    "endpoint": "http://localhost:9200",
+  "monitor": {
+    "host": "http://localhost:9200",
     "log": {
       "level": "info"
     }

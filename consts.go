@@ -1,5 +1,5 @@
-package elastic
+package monitor
 
 const (
-	DefaultURL = "http://localhost:9200"
+	DefaultURL = "http://localhost:8001"
 )

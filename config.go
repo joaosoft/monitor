@@ -1,32 +1,33 @@
-package elastic
+package monitor
 
 import (
 	"fmt"
 
-	gomanager "github.com/joaosoft/manager"
+	manager "github.com/joaosoft/manager"
 )
 
 // AppConfig ...
 type AppConfig struct {
-	Elastic ElasticConfig `json:"elastic"`
+	Monitor MonitorConfig `json:"monitor"`
 }
 
-// ElasticConfig ...
-type ElasticConfig struct {
-	Log struct {
+// MonitorConfig ...
+type MonitorConfig struct {
+	Host string           `json:"host"`
+	Db   manager.DBConfig `json:"db"`
+	Log  struct {
 		Level string `json:"level"`
 	} `json:"log"`
-	Endpoint string `json:"endpoint"`
 }
 
 // NewConfig ...
-func NewConfig(endpoint string) *ElasticConfig {
+func NewConfig(host string) *MonitorConfig {
 	appConfig := &AppConfig{}
-	if _, err := gomanager.NewSimpleConfig(fmt.Sprintf("/config/app.%s.json", GetEnv()), appConfig); err != nil {
+	if _, err := manager.NewSimpleConfig(fmt.Sprintf("/config/app.%s.json", GetEnv()), appConfig); err != nil {
 		log.Error(err.Error())
 	}
 
-	appConfig.Elastic.Endpoint = endpoint
+	appConfig.Monitor.Host = host
 
-	return &appConfig.Elastic
+	return &appConfig.Monitor
 }

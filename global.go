@@ -1,6 +1,5 @@
-package elastic
+package monitor
 
 import logger "github.com/joaosoft/logger"
 
-var log = logger.NewLogDefault("elastic", logger.InfoLevel)
-var templates = make(map[string][]byte)
+var log = logger.NewLogDefault("monitor", logger.InfoLevel)
