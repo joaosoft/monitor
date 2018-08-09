@@ -1,6 +1,6 @@
 {
   "monitor": {
-    "host": "http://localhost:9200",
+    "host": "http://localhost:8001",
     "log": {
       "level": "error"
     }
