@@ -7,6 +7,7 @@ import (
 
 	errors "github.com/joaosoft/errors"
 	manager "github.com/joaosoft/manager"
+	"github.com/lib/pq"
 )
 
 type StoragePostgres struct {
@@ -33,6 +34,7 @@ func (storage *StoragePostgres) GetProcess(idProcess string) (*Process, *errors.
 			status,
 			updated_at,
 			created_at
+		FROM monitor.process
 		WHERE id_process = $1
 	`, idProcess)
 
@@ -45,7 +47,7 @@ func (storage *StoragePostgres) GetProcess(idProcess string) (*Process, *errors.
 		&process.DateTo,
 		&process.TimeFrom,
 		&process.TimeTo,
-		&process.Days,
+		pq.Array(process.Days),
 		&process.Status,
 		&process.UpdatedAt,
 		&process.CreatedAt); err != nil {
@@ -75,24 +77,26 @@ func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListPr
 			status,
 			updated_at,
 			created_at
-		FROM monitor.processes
+		FROM monitor.process
 	`
 
 	index := 1
-	params := make([]string, 0)
+	params := make([]interface{}, 0)
 	for key, value := range values {
 		if index == 1 {
-			query += `WHERE `
+			query += ` WHERE `
 		} else {
 			query += ` AND `
 		}
-		query += fmt.Sprintf(`$%d = $%d`, index, index+1)
-		index = index + 2
+		query += fmt.Sprintf(`%s = $%d`, key, index)
+		index = index + 1
 
-		params = append(params, key, value[0])
+		params = append(params, value[0])
 	}
+	fmt.Println(query)
+	fmt.Printf("%+v", params)
 
-	rows, err := storage.conn.Get().Query(query, params)
+	rows, err := storage.conn.Get().Query(query, params...)
 	defer rows.Close()
 	if err != nil {
 		return nil, errors.New("0", err)
@@ -110,7 +114,7 @@ func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListPr
 			&process.DateTo,
 			&process.TimeFrom,
 			&process.TimeTo,
-			&process.Days,
+			pq.Array(process.Days),
 			&process.Status,
 			&process.UpdatedAt,
 			&process.CreatedAt); err != nil {
@@ -138,10 +142,8 @@ func (storage *StoragePostgres) CreateProcess(newProcess *Process) errors.IErr {
 			time_from,
 			time_to,
 			days,
-			status,
-			created_at,
-			updated_at)
-		VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+			status)
+		VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 	`,
 		newProcess.IdProcess,
 		newProcess.Type,
@@ -151,10 +153,8 @@ func (storage *StoragePostgres) CreateProcess(newProcess *Process) errors.IErr {
 		newProcess.DateTo,
 		newProcess.TimeFrom,
 		newProcess.TimeTo,
-		newProcess.Days,
-		newProcess.Status,
-		newProcess.CreatedAt,
-		newProcess.UpdatedAt); err != nil {
+		pq.Array(newProcess.Days),
+		newProcess.Status); err != nil {
 		return errors.New("0", err)
 	}
 
@@ -182,7 +182,7 @@ func (storage *StoragePostgres) UpdateProcess(updProcess *Process) errors.IErr {
 		updProcess.DateTo,
 		updProcess.TimeFrom,
 		updProcess.TimeTo,
-		updProcess.Days,
+		pq.Array(updProcess.Days),
 		updProcess.Status,
 		updProcess.UpdatedAt,
 		updProcess.IdProcess); err != nil {
@@ -206,7 +206,7 @@ func (storage *StoragePostgres) DeleteProcess(idProcess string) errors.IErr {
 
 func (storage *StoragePostgres) DeleteProcesses() errors.IErr {
 	if _, err := storage.conn.Get().Exec(`
-	    DELETE FROM monitor.sessions`); err != nil {
+	    DELETE FROM monitor.process`); err != nil {
 		return errors.New("0", err)
 	}
 

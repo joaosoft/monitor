@@ -21,7 +21,7 @@ type MonitorConfig struct {
 }
 
 // NewConfig ...
-func NewConfig(host string) *MonitorConfig {
+func NewConfig(host string, db manager.DBConfig) *MonitorConfig {
 	appConfig := &AppConfig{}
 	if _, err := manager.NewSimpleConfig(fmt.Sprintf("/config/app.%s.json", GetEnv()), appConfig); err != nil {
 		log.Error(err.Error())

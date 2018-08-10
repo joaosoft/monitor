@@ -1,15 +1,12 @@
 # monitor
 [![Build Status](https://travis-ci.org/joaosoft/monitor.svg?branch=master)](https://travis-ci.org/joaosoft/monitor) | [![codecov](https://codecov.io/gh/joaosoft/monitor/branch/master/graph/badge.svg)](https://codecov.io/gh/joaosoft/monitor) | [![Go Report Card](https://goreportcard.com/badge/github.com/joaosoft/monitor)](https://goreportcard.com/report/github.com/joaosoft/monitor) | [![GoDoc](https://godoc.org/github.com/joaosoft/monitor?status.svg)](https://godoc.org/github.com/joaosoft/monitor)
 
-A simple and fast monitor client.
-
-## Support for 
-> Create / Exists / Delete index (with or without mapping)
-> Create / Update / Delete documents
-> Search documents
-* The search can be done with a template to be faster than other complicated frameworks.
+A simple process monitor
 
 ###### If i miss something or you have something interesting, please be part of this project. Let me know! My contact is at the end.
+
+## With support for
+* Get, Create, Update, Delete for processes
 
 ## Dependecy Management 
 >### Dep
@@ -26,171 +23,7 @@ go get github.com/joaosoft/monitor
 
 ## Usage 
 This examples are available in the project at [monitor/examples](https://github.com/joaosoft/monitor/tree/master/examples)
-
-### Templates
-#### get.example.1.template
 ```
-{
-  "query": {
-    "bool": {
-      "must": {
-        "term": {
-          {{ range $key, $value := .Data }}
-             "{{ $key }}": "{{ $value }}"
-             {{ if (gt (len $.Data) 1) }}
-                 ,
-             {{ end }}
-          {{ end }}
-        }
-      }
-    }
-  },
-  "sort": [
-    {
-      "age": {
-        "order": "desc"
-      }
-    }
-  ]
-
-  {{ if (gt $.From 0) }}
-    ,
-    "from": {{.From}}
-  {{ end }}
-
-  {{ if (gt $.Size 0) }}
-    ,
-  " size": {{.Size}}
-  {{ end }}
-}
-```
-
-### Code
-```go
-// create a client
-import "github.com/joaosoft/monitor"
-
-client := monitor.NewClient("http://localhost:9200")
-// you can define the configuration without having a configuration file
-//client1 := monitor.NewMonitor(monitor.WithConfiguration(monitor.NewConfig("http://localhost:9200")))
-
-type person struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
-}
-
-// create a index with mapping
-err := client.CreateIndex().Index("persons").Body([]byte(`
-{
-  "mappings": {
-    "person": {
-      "properties": {
-        "age": {
-          "type": "long"
-        },
-        "name": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`)).Execute()
-
-
-// create a new document with id
-age, _ := strconv.Atoi(id)
-id, err := client.Create().Index("persons").Type("person").Id(id).Body(person{
-    Name: "joao",
-    Age:  age + 20,
-}).Execute()
-
-if err != nil {
-    log.Error(err)
-} else {
-    fmt.Printf("\ncreated a new person with id %s\n", id)
-}
-
-	
-// create a new document with a generated id
-id, err := client.Create().Index("persons").Type("person").Body(person{
-    Name: "joao",
-    Age:  30,
-}).Execute()
-
-if err != nil {
-    log.Error(err)
-} else {
-    fmt.Printf("\ncreated a new person with id %s\n", id)
-}
-
-
-// update a document
-age, _ := strconv.Atoi(id)
-id, err := client.Create().Index("persons").Type("person").Id(id).Body(person{
-    Name: "luis",
-    Age:  age + 20,
-}).Execute()
-
-if err != nil {
-    log.Error(err)
-} else {
-    fmt.Printf("\nupdated person with id %s\n", id)
-}
-
-
-// search a document with a template
-d1 := monitor.TemplateData{Data: map[string]interface{}{"name": name}}
-
-dir, _ := os.Getwd()
-err := client.Search().
-    Index("persons").
-    Type("person").
-    Object(&data).
-    Template(dir+"/examples/templates", get.example.search.template, &d1, false).
-    Execute()
-
-if err != nil {
-    log.Error(err)
-} else {
-    fmt.Printf("\nsearch person by name:%s %+v\n", name, data)
-}
-
-
-// delete a document
-err := client.Delete().Index("persons").Type("person").Id(id).Execute()
-
-if err != nil {
-    log.Error(err)
-} else {
-    fmt.Printf("\ndeleted person with id %s\n", "1")
-}
-
-
-// validate if exists a index
-status, err := client.ExistsIndex().Index(index).Execute()
-
-if err != nil {
-    log.Error(err)
-} else {
-    fmt.Printf("\nexists index? %t\n", status == http.StatusOK)
-}
-
-
-// delete a index
-err := client.DeleteIndex().Index("persons").Execute()
-
-if err != nil {
-    log.Error(err)
-} else {
-    fmt.Printf("\ndeleted persons index\n")
-} 
 ```
 
 ## Known issues

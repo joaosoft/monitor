@@ -20,10 +20,10 @@ func NewController(interactor *Interactor) *Controller {
 
 func (controller *Controller) GetProcessHandler(ctx echo.Context) error {
 	request := GetProcessRequest{
-		IdProcess: ctx.Param("id_process"),
+		IdProcess: ctx.Param("id"),
 	}
 
-	if errs := validator.Validate(request); errs != nil {
+	if errs := validator.Validate(request); !errs.IsEmpty() {
 		return ctx.JSON(http.StatusBadRequest, errs)
 	}
 
@@ -55,7 +55,7 @@ func (controller *Controller) CreateProcessHandler(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
 	}
 
-	if errs := validator.Validate(request.Body); errs != nil {
+	if errs := validator.Validate(request.Body); !errs.IsEmpty() {
 		newErr := errors.New("0", errs)
 		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
 			Error("error when validating body request").ToErr(newErr)
@@ -86,7 +86,7 @@ func (controller *Controller) CreateProcessHandler(ctx echo.Context) error {
 
 func (controller *Controller) UpdateProcessHandler(ctx echo.Context) error {
 	request := UpdateProcessRequest{
-		IdProcess: ctx.Param("id_process"),
+		IdProcess: ctx.Param("id"),
 	}
 	if err := ctx.Bind(&request.Body); err != nil {
 		newErr := errors.New("0", err)
@@ -95,7 +95,7 @@ func (controller *Controller) UpdateProcessHandler(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
 	}
 
-	if errs := validator.Validate(request); errs != nil {
+	if errs := validator.Validate(request); !errs.IsEmpty() {
 		newErr := errors.New("0", errs)
 		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
 			Error("error when validating body request").ToErr(newErr)
@@ -123,10 +123,10 @@ func (controller *Controller) UpdateProcessHandler(ctx echo.Context) error {
 
 func (controller *Controller) DeleteProcessHandler(ctx echo.Context) error {
 	request := DeleteProcessRequest{
-		IdProcess: ctx.Param("id_process"),
+		IdProcess: ctx.Param("id"),
 	}
 
-	if errs := validator.Validate(request); errs != nil {
+	if errs := validator.Validate(request); !errs.IsEmpty() {
 		newErr := errors.New("0", errs)
 		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
 			Error("error when validating body request").ToErr(newErr)

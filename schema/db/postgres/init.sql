@@ -24,7 +24,7 @@ CREATE TABLE monitor.process (
   status                  TEXT,
   created_at              TIMESTAMP DEFAULT NOW(),
   updated_at              TIMESTAMP DEFAULT NOW(),
-  CONSTRAINT monitor_id_process_pkey PRIMARY KEY (id_process),
+  CONSTRAINT monitor_id_process_pkey PRIMARY KEY (id_process)
 );
 
 CREATE TRIGGER trigger_process_updated_at BEFORE UPDATE
