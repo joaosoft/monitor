@@ -32,7 +32,7 @@ type CreateProcessRequest struct {
 		TimeTo      *Time    `json:"time_to" validate:"special={time}"`
 		DaysOff     *ListDay `json:"days_off" validate:"options=monday;tuesday;wednesday;thursday;friday;saturday;sunday"`
 		Monitor     string   `json:"monitor"`
-		Status      Status   `json:"status" validate:"options=stopped;running"`
+		Status      *Status  `json:"status" validate:"options=stopped;running"`
 	}
 }
 
@@ -49,7 +49,7 @@ type UpdateProcessRequest struct {
 		TimeTo      *Time    `json:"time_to" validate:"special={time}"`
 		DaysOff     *ListDay `json:"days_off" validate:"options=monday;tuesday;wednesday;thursday;friday;saturday;sunday"`
 		Monitor     string   `json:"monitor"`
-		Status      Status   `json:"status" validate:"options=stopped;running"`
+		Status      *Status  `json:"status" validate:"options=stopped;running"`
 	}
 }
 
@@ -73,7 +73,7 @@ type Process struct {
 	TimeTo      *Time     `json:"time_to"`
 	DaysOff     *ListDay  `json:"days_off"`
 	Monitor     string    `json:"monitor"`
-	Status      Status    `json:"status"`
+	Status      *Status   `json:"status"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	CreatedAt   time.Time `json:"created_at"`
 }

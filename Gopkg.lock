@@ -64,7 +64,7 @@
   branch = "master"
   name = "github.com/joaosoft/validator"
   packages = ["."]
-  revision = "40d90e3e08fb592af970460e19a94e0804976974"
+  revision = "f6fa821a89f23c7bffe43b5bc55f260be16ce745"
 
 [[projects]]
   branch = "master"

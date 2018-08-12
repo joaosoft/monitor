@@ -78,7 +78,7 @@ func (interactor *Interactor) UpdateProcess(updProcess *Process) *errors.Err {
 }
 
 func (interactor *Interactor) UpdateProcessStatus(idProcess string, status Status) errors.ListErr {
-	log.WithFields(map[string]interface{}{"method": "UpdateProcess"})
+	log.WithFields(map[string]interface{}{"method": "UpdateProcessStatus"})
 	log.Infof("updating process %s to status %s", idProcess, status)
 
 	if canExecuite, errs := interactor.CanExecute(idProcess); canExecuite {
@@ -90,6 +90,17 @@ func (interactor *Interactor) UpdateProcessStatus(idProcess string, status Statu
 		} else {
 			return nil
 		}
+	} else {
+		return errs
+	}
+}
+
+func (interactor *Interactor) UpdateProcessStatusCheck(idProcess string, status Status) errors.ListErr {
+	log.WithFields(map[string]interface{}{"method": "UpdateProcessStatusCheck"})
+	log.Infof("check updating process %s to status %s", idProcess, status)
+
+	if canExecuite, errs := interactor.CanExecute(idProcess); canExecuite {
+		return nil
 	} else {
 		return errs
 	}
@@ -127,23 +138,23 @@ func (interactor *Interactor) CanExecute(idProcess string) (bool, errors.ListErr
 	}
 
 	now := time.Now()
-	if process.Status == StatusRunning {
+	if process.Status != nil && *process.Status == StatusRunning {
 		errors.New("0", "the process is already running!")
 	}
-	if process.DaysOff.Contains(Day(strings.ToLower(now.Weekday().String()))) {
+	if process.DaysOff != nil && process.DaysOff.Contains(Day(strings.ToLower(now.Weekday().String()))) {
 		errs.Add(errors.New("1", "the process cannot the executed on %+v!", process.DaysOff))
 	}
-	if now.Format("02-01-2006") < string(*process.DateFrom) {
-		errs.Add(errors.New("2", "the process can just be started after %s", process.DateFrom))
+	if process.DateFrom != nil && now.Format("02-01-2006") < string(*process.DateFrom) {
+		errs.Add(errors.New("2", "the process can just be started after %s", *process.DateFrom))
 	}
-	if now.Format("02-01-2006") > string(*process.DateTo) {
-		errs.Add(errors.New("3", "the process could just be started before %s", process.DateFrom))
+	if process.DateTo != nil && now.Format("02-01-2006") > string(*process.DateTo) {
+		errs.Add(errors.New("3", "the process could just be started before %s", *process.DateFrom))
 	}
-	if now.Format("15:04:05") < string(*process.TimeFrom) {
-		errs.Add(errors.New("4", "the process can just be started after %s", process.TimeFrom))
+	if process.TimeFrom != nil && now.Format("15:04:05") < string(*process.TimeFrom) {
+		errs.Add(errors.New("4", "the process can just be started after %s", *process.TimeFrom))
 	}
-	if now.Format("15:04:05") > string(*process.TimeTo) {
-		errs.Add(errors.New("5", "the process could just be started before %s", process.TimeTo))
+	if process.TimeTo != nil && now.Format("15:04:05") > string(*process.TimeTo) {
+		errs.Add(errors.New("5", "the process could just be started before %s", *process.TimeTo))
 	}
 
 	return errs.IsEmpty(), errs

@@ -11,7 +11,6 @@ import (
 )
 
 func (d *Date) Scan(src interface{}) error {
-	fmt.Println("SCAN")
 	if d == nil {
 		return nil
 	}
@@ -32,7 +31,6 @@ func (d *Date) Scan(src interface{}) error {
 }
 
 func (d Date) Value() (driver.Value, error) {
-	fmt.Println("VALUE")
 	if d == "" {
 		return nil, nil
 	}
@@ -40,7 +38,6 @@ func (d Date) Value() (driver.Value, error) {
 }
 
 func (t *Time) Scan(src interface{}) error {
-	fmt.Println("SCAN")
 	if t == nil {
 		return nil
 	}
@@ -60,7 +57,6 @@ func (t *Time) Scan(src interface{}) error {
 }
 
 func (t Time) Value() (driver.Value, error) {
-	fmt.Println("VALUE")
 	if t == "" {
 		return nil, nil
 	}
@@ -69,7 +65,6 @@ func (t Time) Value() (driver.Value, error) {
 }
 
 func (s *Status) Scan(src interface{}) error {
-	fmt.Println("SCAN")
 	if s == nil {
 		return nil
 	}
@@ -87,7 +82,6 @@ func (s *Status) Scan(src interface{}) error {
 }
 
 func (s Status) Value() (driver.Value, error) {
-	fmt.Println("VALUE")
 	if s == "" {
 		return nil, nil
 	}
@@ -96,7 +90,6 @@ func (s Status) Value() (driver.Value, error) {
 }
 
 func (a *ListDay) Scan(src interface{}) error {
-	fmt.Println("SCAN")
 	if a == nil {
 		return nil
 	}
@@ -123,7 +116,6 @@ func (a *ListDay) Scan(src interface{}) error {
 
 // Value implements the driver.Valuer interface.
 func (a ListDay) Value() (driver.Value, error) {
-	fmt.Println("VALUE")
 	if a == nil {
 		return nil, nil
 	}

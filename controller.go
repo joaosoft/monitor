@@ -141,6 +141,26 @@ func (controller *Controller) UpdateProcessStatusHandler(ctx echo.Context) error
 	}
 }
 
+func (controller *Controller) UpdateProcessStatusCheckHandler(ctx echo.Context) error {
+	request := UpdateProcessStatusRequest{
+		IdProcess: ctx.Param("id"),
+		Status:    Status(ctx.Param("status")),
+	}
+
+	if errs := validator.Validate(request); !errs.IsEmpty() {
+		newErr := errors.New("0", errs)
+		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
+			Error("error when validating query request").ToErr(newErr)
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+	}
+
+	if errs := controller.interactor.UpdateProcessStatus(request.IdProcess, request.Status); errs != nil {
+		return ctx.JSON(http.StatusInternalServerError, errs)
+	} else {
+		return ctx.NoContent(http.StatusOK)
+	}
+}
+
 func (controller *Controller) DeleteProcessHandler(ctx echo.Context) error {
 	request := DeleteProcessRequest{
 		IdProcess: ctx.Param("id"),
