@@ -5,7 +5,8 @@ import (
 
 	"strings"
 
-	"github.com/joaosoft/errors"
+	errors "github.com/joaosoft/errors"
+	types "github.com/joaosoft/types"
 )
 
 type IStorageDB interface {
@@ -141,7 +142,7 @@ func (interactor *Interactor) CanExecute(idProcess string) (bool, errors.ListErr
 	if process.Status != nil && *process.Status == StatusRunning {
 		errors.New("0", "the process is already running!")
 	}
-	if process.DaysOff != nil && process.DaysOff.Contains(Day(strings.ToLower(now.Weekday().String()))) {
+	if process.DaysOff != nil && process.DaysOff.Contains(types.Day(strings.ToLower(now.Weekday().String()))) {
 		errs.Add(errors.New("1", "the process cannot the executed on %+v!", process.DaysOff))
 	}
 	if process.DateFrom != nil && now.Format("02-01-2006") < string(*process.DateFrom) {
