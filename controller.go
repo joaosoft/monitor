@@ -71,7 +71,7 @@ func (controller *Controller) CreateProcessHandler(ctx echo.Context) error {
 		DateTo:      request.Body.DateTo,
 		TimeFrom:    request.Body.TimeFrom,
 		TimeTo:      request.Body.TimeTo,
-		Days:        request.Body.Days,
+		DaysOff:     request.Body.DaysOff,
 		Status:      request.Body.Status,
 	}
 	if err := controller.interactor.CreateProcess(&newProcess); err != nil {
@@ -111,11 +111,31 @@ func (controller *Controller) UpdateProcessHandler(ctx echo.Context) error {
 		DateTo:      request.Body.DateTo,
 		TimeFrom:    request.Body.TimeFrom,
 		TimeTo:      request.Body.TimeTo,
-		Days:        request.Body.Days,
+		DaysOff:     request.Body.DaysOff,
 		Status:      request.Body.Status,
 	}
 	if err := controller.interactor.UpdateProcess(&updProcess); err != nil {
 		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error(), Cause: err.Cause()})
+	} else {
+		return ctx.NoContent(http.StatusOK)
+	}
+}
+
+func (controller *Controller) UpdateProcessStatusHandler(ctx echo.Context) error {
+	request := UpdateProcessStatusRequest{
+		IdProcess: ctx.Param("id"),
+		Status:    Status(ctx.Param("status")),
+	}
+
+	if errs := validator.Validate(request); !errs.IsEmpty() {
+		newErr := errors.New("0", errs)
+		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
+			Error("error when validating query request").ToErr(newErr)
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+	}
+
+	if errs := controller.interactor.UpdateProcessStatus(request.IdProcess, request.Status); errs != nil {
+		return ctx.JSON(http.StatusInternalServerError, errs)
 	} else {
 		return ctx.NoContent(http.StatusOK)
 	}

@@ -46,7 +46,7 @@
   branch = "master"
   name = "github.com/joaosoft/errors"
   packages = ["."]
-  revision = "6fd05bc0ae5d976dba85b2254d2fdbc2bdec3a32"
+  revision = "6bc491374c807a134a35588fc95a3a412cabb14f"
 
 [[projects]]
   branch = "master"
@@ -64,13 +64,13 @@
   branch = "master"
   name = "github.com/joaosoft/validator"
   packages = ["."]
-  revision = "9c43e636b11c84f2815a85701fe3e4ef06230a10"
+  revision = "40d90e3e08fb592af970460e19a94e0804976974"
 
 [[projects]]
   branch = "master"
   name = "github.com/joaosoft/writers"
   packages = ["."]
-  revision = "1410d81e85d22774561ca575b0d27656ada14a97"
+  revision = "a1cd188c0e3ffca9bb227ea1fea39ed900a867a6"
 
 [[projects]]
   name = "github.com/labstack/echo"
@@ -202,7 +202,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "904bdc257025c7b3f43c19360ad3ab85783fad78"
+  revision = "98c5dad5d1a0e8a73845ecc8897d0bd56586511d"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -232,6 +232,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "7d921b7bf58e9aa2ec4c7b92d653f52dc429648f61e9c4d2b06fce026d35726b"
+  inputs-digest = "627853ad0f3e0d91f2648231b00c4cc26869f01032b8433a77d9ed5434276658"
   solver-name = "gps-cdcl"
   solver-version = 1

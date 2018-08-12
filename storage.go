@@ -30,7 +30,8 @@ func (storage *StoragePostgres) GetProcess(idProcess string) (*Process, *errors.
 			date_to,
 			time_from,
 			time_to,
-			days,
+			days_off,
+			monitor,
 			status,
 			updated_at,
 			created_at
@@ -43,12 +44,13 @@ func (storage *StoragePostgres) GetProcess(idProcess string) (*Process, *errors.
 		&process.Type,
 		&process.Name,
 		&process.Description,
-		&process.DateFrom,
-		&process.DateTo,
-		&process.TimeFrom,
-		&process.TimeTo,
-		pq.Array(process.Days),
-		&process.Status,
+		process.DateFrom,
+		process.DateTo,
+		process.TimeFrom,
+		process.TimeTo,
+		process.DaysOff,
+		&process.Monitor,
+		process.Status,
 		&process.UpdatedAt,
 		&process.CreatedAt); err != nil {
 
@@ -62,7 +64,7 @@ func (storage *StoragePostgres) GetProcess(idProcess string) (*Process, *errors.
 	return process, nil
 }
 
-func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListProcess, errors.IErr) {
+func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListProcess, *errors.Err) {
 	query := `
 	    SELECT
 			id_process,
@@ -73,7 +75,8 @@ func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListPr
 			date_to,
 			time_from,
 			time_to,
-			days,
+			days_off,
+			monitor,
 			status,
 			updated_at,
 			created_at
@@ -93,8 +96,6 @@ func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListPr
 
 		params = append(params, value[0])
 	}
-	fmt.Println(query)
-	fmt.Printf("%+v", params)
 
 	rows, err := storage.conn.Get().Query(query, params...)
 	defer rows.Close()
@@ -110,12 +111,13 @@ func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListPr
 			&process.Type,
 			&process.Name,
 			&process.Description,
-			&process.DateFrom,
-			&process.DateTo,
-			&process.TimeFrom,
-			&process.TimeTo,
-			pq.Array(process.Days),
-			&process.Status,
+			process.DateFrom,
+			process.DateTo,
+			process.TimeFrom,
+			process.TimeTo,
+			process.DaysOff,
+			&process.Monitor,
+			process.Status,
 			&process.UpdatedAt,
 			&process.CreatedAt); err != nil {
 
@@ -130,7 +132,7 @@ func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListPr
 	return processes, nil
 }
 
-func (storage *StoragePostgres) CreateProcess(newProcess *Process) errors.IErr {
+func (storage *StoragePostgres) CreateProcess(newProcess *Process) *errors.Err {
 	if _, err := storage.conn.Get().Exec(`
 		INSERT INTO monitor.process(
 			id_process, 
@@ -141,9 +143,10 @@ func (storage *StoragePostgres) CreateProcess(newProcess *Process) errors.IErr {
 			date_to,
 			time_from,
 			time_to,
-			days,
+			days_off,
+			monitor,
 			status)
-		VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+		VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 	`,
 		newProcess.IdProcess,
 		newProcess.Type,
@@ -153,7 +156,8 @@ func (storage *StoragePostgres) CreateProcess(newProcess *Process) errors.IErr {
 		newProcess.DateTo,
 		newProcess.TimeFrom,
 		newProcess.TimeTo,
-		pq.Array(newProcess.Days),
+		newProcess.DaysOff,
+		newProcess.Monitor,
 		newProcess.Status); err != nil {
 		return errors.New("0", err)
 	}
@@ -161,7 +165,7 @@ func (storage *StoragePostgres) CreateProcess(newProcess *Process) errors.IErr {
 	return nil
 }
 
-func (storage *StoragePostgres) UpdateProcess(updProcess *Process) errors.IErr {
+func (storage *StoragePostgres) UpdateProcess(updProcess *Process) *errors.Err {
 	if _, err := storage.conn.Get().Exec(`
 		UPDATE monitor.process SET 
 			"type" = $1, 
@@ -171,10 +175,11 @@ func (storage *StoragePostgres) UpdateProcess(updProcess *Process) errors.IErr {
 			date_to = $5,
 			time_from = $6,
 			time_to = $7,
-			days = $8,
-			status = $9,
-			updated_at = $10
-		WHERE id_process = $11
+			days_off = $8,
+			monitor = $9,
+			status = $10,
+			updated_at = $11
+		WHERE id_process = $12
 	`, updProcess.Type,
 		updProcess.Name,
 		updProcess.Description,
@@ -182,7 +187,8 @@ func (storage *StoragePostgres) UpdateProcess(updProcess *Process) errors.IErr {
 		updProcess.DateTo,
 		updProcess.TimeFrom,
 		updProcess.TimeTo,
-		pq.Array(updProcess.Days),
+		pq.Array(updProcess.DaysOff),
+		updProcess.Monitor,
 		updProcess.Status,
 		updProcess.UpdatedAt,
 		updProcess.IdProcess); err != nil {
@@ -192,7 +198,19 @@ func (storage *StoragePostgres) UpdateProcess(updProcess *Process) errors.IErr {
 	return nil
 }
 
-func (storage *StoragePostgres) DeleteProcess(idProcess string) errors.IErr {
+func (storage *StoragePostgres) UpdateProcessStatus(idProcess string, status Status) *errors.Err {
+	if _, err := storage.conn.Get().Exec(`
+		UPDATE monitor.process SET 
+			status = $1
+		WHERE id_process = $2
+	`, status, idProcess); err != nil {
+		return errors.New("0", err)
+	}
+
+	return nil
+}
+
+func (storage *StoragePostgres) DeleteProcess(idProcess string) *errors.Err {
 	if _, err := storage.conn.Get().Exec(`
 	    DELETE 
 		FROM monitor.process
@@ -204,7 +222,7 @@ func (storage *StoragePostgres) DeleteProcess(idProcess string) errors.IErr {
 	return nil
 }
 
-func (storage *StoragePostgres) DeleteProcesses() errors.IErr {
+func (storage *StoragePostgres) DeleteProcesses() *errors.Err {
 	if _, err := storage.conn.Get().Exec(`
 	    DELETE FROM monitor.process`); err != nil {
 		return errors.New("0", err)

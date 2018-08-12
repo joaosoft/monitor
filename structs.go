@@ -1,63 +1,14 @@
 package monitor
 
 import (
-	"database/sql/driver"
-	"fmt"
 	"time"
 )
 
 type Date string
 type Time string
-
-// Scan implements the sql.Scanner interface.
-func (a *Date) Scan(src interface{}) error {
-	switch value := src.(type) {
-	case string:
-		*a = Date(value)
-		return nil
-	case time.Time:
-		*a = Date(value.Format("02-01-2006"))
-		return nil
-	case nil:
-		a = nil
-		return nil
-	}
-
-	return fmt.Errorf("pq: cannot convert %T to Date", src)
-}
-
-// Value implements the driver.Valuer interface.
-func (a *Date) Value() (driver.Value, error) {
-	if a == nil {
-		return nil, nil
-	}
-	return string(*a), nil
-}
-
-// Scan implements the sql.Scanner interface.
-func (a *Time) Scan(src interface{}) error {
-	switch value := src.(type) {
-	case string:
-		*a = Time(value)
-		return nil
-	case time.Time:
-		*a = Time(value.Format("15:04:05"))
-		return nil
-	case nil:
-		a = nil
-		return nil
-	}
-
-	return fmt.Errorf("pq: cannot convert %T to Time", src)
-}
-
-// Value implements the driver.Valuer interface.
-func (a *Time) Value() (driver.Value, error) {
-	if a == nil {
-		return nil, nil
-	}
-	return string(*a), nil
-}
+type Status string
+type Day string
+type ListDay []Day
 
 type ErrorResponse struct {
 	Code    int    `json:"code,omitempty"`
@@ -75,12 +26,13 @@ type CreateProcessRequest struct {
 		Type        string   `json:"type" validate:"nonzero"`
 		Name        string   `json:"name" validate:"nonzero"`
 		Description string   `json:"description"`
-		DateFrom    Date     `json:"date_from" validate:"special={date}"`
-		DateTo      Date     `json:"date_to" validate:"special={date}"`
-		TimeFrom    Time     `json:"time_from" validate:"special={time}"`
-		TimeTo      Time     `json:"time_to" validate:"special={time}"`
-		Days        []string `json:"days" validate:"options=monday;tuesday;wednesday;thursday;friday;saturday;sunday"`
-		Status      string   `json:"status" validate:"options=stopped;running;disabled"`
+		DateFrom    *Date    `json:"date_from" validate:"special={date}"`
+		DateTo      *Date    `json:"date_to" validate:"special={date}"`
+		TimeFrom    *Time    `json:"time_from" validate:"special={time}"`
+		TimeTo      *Time    `json:"time_to" validate:"special={time}"`
+		DaysOff     *ListDay `json:"days_off" validate:"options=monday;tuesday;wednesday;thursday;friday;saturday;sunday"`
+		Monitor     string   `json:"monitor"`
+		Status      Status   `json:"status" validate:"options=stopped;running"`
 	}
 }
 
@@ -91,13 +43,19 @@ type UpdateProcessRequest struct {
 		Type        string   `json:"type" validate:"nonzero"`
 		Name        string   `json:"name" validate:"nonzero"`
 		Description string   `json:"description"`
-		DateFrom    Date     `json:"date_from" validate:"special={date}"`
-		DateTo      Date     `json:"date_to" validate:"special={date}"`
-		TimeFrom    Time     `json:"time_from" validate:"special={time}"`
-		TimeTo      Time     `json:"time_to" validate:"special={time}"`
-		Days        []string `json:"days" validate:"options=monday;tuesday;wednesday;thursday;friday;saturday;sunday"`
-		Status      string   `json:"status" validate:"options=stopped;running;disabled"`
+		DateFrom    *Date    `json:"date_from" validate:"special={date}"`
+		DateTo      *Date    `json:"date_to" validate:"special={date}"`
+		TimeFrom    *Time    `json:"time_from" validate:"special={time}"`
+		TimeTo      *Time    `json:"time_to" validate:"special={time}"`
+		DaysOff     *ListDay `json:"days_off" validate:"options=monday;tuesday;wednesday;thursday;friday;saturday;sunday"`
+		Monitor     string   `json:"monitor"`
+		Status      Status   `json:"status" validate:"options=stopped;running"`
 	}
+}
+
+type UpdateProcessStatusRequest struct {
+	IdProcess string `json:"id_process" validate:"nonzero"`
+	Status    Status `json:"status" validate:"options=stopped;running"`
 }
 
 type DeleteProcessRequest struct {
@@ -109,14 +67,25 @@ type Process struct {
 	Name        string    `json:"name"`
 	Type        string    `json:"type"`
 	Description string    `json:"description"`
-	DateFrom    Date      `json:"date_from"`
-	DateTo      Date      `json:"date_to"`
-	TimeFrom    Time      `json:"time_from"`
-	TimeTo      Time      `json:"time_to"`
-	Days        []string  `json:"days"`
-	Status      string    `json:"status"`
+	DateFrom    *Date     `json:"date_from"`
+	DateTo      *Date     `json:"date_to"`
+	TimeFrom    *Time     `json:"time_from"`
+	TimeTo      *Time     `json:"time_to"`
+	DaysOff     *ListDay  `json:"days_off"`
+	Monitor     string    `json:"monitor"`
+	Status      Status    `json:"status"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 
 type ListProcess []*Process
+
+func (l ListDay) Contains(day Day) bool {
+	for _, value := range l {
+		if day == Day(value) {
+			return true
+		}
+	}
+
+	return false
+}

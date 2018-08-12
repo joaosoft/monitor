@@ -12,6 +12,7 @@ func (controller *Controller) RegisterRoutes(web manager.IWeb) error {
 		manager.NewRoute(http.MethodGet, "/api/v1/processes", controller.GetProcessesHandler),
 		manager.NewRoute(http.MethodPost, "/api/v1/processes", controller.CreateProcessHandler),
 		manager.NewRoute(http.MethodPut, "/api/v1/processes/:id", controller.UpdateProcessHandler),
+		manager.NewRoute(http.MethodPut, "/api/v1/processes/:id/status/:status", controller.UpdateProcessStatusHandler),
 		manager.NewRoute(http.MethodDelete, "/api/v1/processes/:id", controller.DeleteProcessHandler),
 		manager.NewRoute(http.MethodDelete, "/api/v1/processes", controller.DeleteProcessesHandler),
 	)
