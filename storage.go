@@ -85,16 +85,19 @@ func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListPr
 
 	index := 1
 	params := make([]interface{}, 0)
-	for key, value := range values {
-		if index == 1 {
-			query += ` WHERE `
-		} else {
-			query += ` AND `
-		}
-		query += fmt.Sprintf(`%s = $%d`, key, index)
-		index = index + 1
 
-		params = append(params, value[0])
+	if values != nil {
+		for key, value := range values {
+			if index == 1 {
+				query += ` WHERE `
+			} else {
+				query += ` AND `
+			}
+			query += fmt.Sprintf(`%s = $%d`, key, index)
+			index = index + 1
+
+			params = append(params, value[0])
+		}
 	}
 
 	rows, err := storage.conn.Get().Query(query, params...)
