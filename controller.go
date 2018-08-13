@@ -12,7 +12,7 @@ type Controller struct {
 	interactor *Interactor
 }
 
-func NewController(interactor *Interactor) *Controller {
+func NewDbMigration(interactor *Interactor) *Controller {
 	return &Controller{
 		interactor: interactor,
 	}
