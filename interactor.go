@@ -149,7 +149,7 @@ func (interactor *Interactor) CanExecute(idProcess string) (bool, errors.ListErr
 		errs.Add(errors.New("2", "the process can just be started after %s", *process.DateFrom))
 	}
 	if process.DateTo != nil && now.Format("02-01-2006") > string(*process.DateTo) {
-		errs.Add(errors.New("3", "the process could just be started before %s", *process.DateFrom))
+		errs.Add(errors.New("3", "the process could just be started before %s", *process.DateTo))
 	}
 	if process.TimeFrom != nil && now.Format("15:04:05") < string(*process.TimeFrom) {
 		errs.Add(errors.New("4", "the process can just be started after %s", *process.TimeFrom))
