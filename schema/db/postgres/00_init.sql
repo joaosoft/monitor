@@ -34,19 +34,20 @@ CREATE TRIGGER trigger_process_updated_at BEFORE UPDATE
 
 -- HISTORY
 CREATE TABLE monitor.process_history (LIKE monitor.process);
-ALTER TABLE monitor.process_history ADD COLUMN operation TEXT NOT NULL;
-ALTER TABLE monitor.process_history ADD COLUMN "user" TEXT NOT NULL;
+ALTER TABLE monitor.process_history ADD COLUMN _operation TEXT NOT NULL;
+ALTER TABLE monitor.process_history ADD COLUMN "_user" TEXT NOT NULL;
+ALTER TABLE monitor.process_history ADD COLUMN _operation_at TIMESTAMP DEFAULT NOW();
 
 CREATE OR REPLACE FUNCTION function_process_history() RETURNS TRIGGER AS $$
 BEGIN
     IF (TG_OP = 'DELETE') THEN
-        INSERT INTO monitor.process_history VALUES(OLD.*, 'D', user);
+        INSERT INTO monitor.process_history VALUES(OLD.*, 'D', user, now());
         RETURN OLD;
     ELSIF (TG_OP = 'UPDATE') THEN
-        INSERT INTO monitor.process_history VALUES(NEW.*, 'U', user);
+        INSERT INTO monitor.process_history VALUES(NEW.*, 'U', user, now());
         RETURN NEW;
     ELSIF (TG_OP = 'INSERT') THEN
-        INSERT INTO monitor.process_history VALUES(NEW.*, 'I', user);
+        INSERT INTO monitor.process_history VALUES(NEW.*, 'I', user, now());
         RETURN NEW;
     END IF;
 END;
