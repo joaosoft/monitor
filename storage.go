@@ -101,10 +101,11 @@ func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListPr
 	}
 
 	rows, err := storage.conn.Get().Query(query, params...)
-	defer rows.Close()
 	if err != nil {
 		return nil, errors.New("0", err)
 	}
+
+	defer rows.Close()
 
 	processes := make(ListProcess, 0)
 	for rows.Next() {
