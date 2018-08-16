@@ -6,12 +6,12 @@
       "datasource": "postgres://postgres:postgres@localhost:5432?sslmode=disable"
     },
     "log": {
-      "level": "error"
+      "level": "info"
     }
   },
   "manager": {
     "log": {
-      "level": "error"
+      "level": "info"
     }
   }
 }

@@ -46,19 +46,19 @@
   branch = "master"
   name = "github.com/joaosoft/errors"
   packages = ["."]
-  revision = "6bc491374c807a134a35588fc95a3a412cabb14f"
+  revision = "35a9ecf62784a4615d1f0d68de7e8bc6029e6767"
 
 [[projects]]
   branch = "master"
   name = "github.com/joaosoft/logger"
   packages = ["."]
-  revision = "aff7dfeadcc11d28cb5a959c3100ef8f0ab2926f"
+  revision = "fc4ba6d09605b34ef99f1dd1576b8dcde8c596b0"
 
 [[projects]]
   branch = "master"
   name = "github.com/joaosoft/manager"
   packages = ["."]
-  revision = "08c064ab9e5b9c242ea0470c47c079cc8d026f9f"
+  revision = "68a484f6db7c87688f66621f55b5e572e994aea2"
 
 [[projects]]
   branch = "master"
@@ -70,7 +70,7 @@
   branch = "master"
   name = "github.com/joaosoft/validator"
   packages = ["."]
-  revision = "0aa37772bfea256e111be34bbb295a91432a5cd6"
+  revision = "ef7488152ed87e34f0606cccd21ddc3fe03035c9"
 
 [[projects]]
   branch = "master"
@@ -163,7 +163,7 @@
   branch = "master"
   name = "github.com/spf13/jwalterweatherman"
   packages = ["."]
-  revision = "7c0cea34c8ece3fbeb2b27ab9b59511d360fb394"
+  revision = "14d3d4c518341bea657dd8a226f5121c0ff8c9f2"
 
 [[projects]]
   name = "github.com/spf13/pflag"
@@ -208,7 +208,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "98c5dad5d1a0e8a73845ecc8897d0bd56586511d"
+  revision = "1c9583448a9c3aa0f9a6a5241bf73c0bd8aafded"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -238,6 +238,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e95116927f22309be6deb6ecdb388e249808531c2e43245dd35dcbc9a101a176"
+  inputs-digest = "31d36e412e21034808b133bcc52949f08fa8ae0544499a7e31650d0d95a15878"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -28,7 +28,7 @@ func (controller *Controller) GetProcessHandler(ctx echo.Context) error {
 	}
 
 	if process, err := controller.interactor.GetProcess(request.IdProcess); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error(), Cause: err.Cause()})
+		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error()})
 	} else if process == nil {
 		return ctx.NoContent(http.StatusNotFound)
 	} else {
@@ -38,7 +38,7 @@ func (controller *Controller) GetProcessHandler(ctx echo.Context) error {
 
 func (controller *Controller) GetProcessesHandler(ctx echo.Context) error {
 	if processes, err := controller.interactor.GetProcesses(ctx.QueryParams()); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error(), Cause: err.Cause()})
+		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error()})
 	} else if processes == nil {
 		return ctx.NoContent(http.StatusNotFound)
 	} else {
@@ -49,17 +49,16 @@ func (controller *Controller) GetProcessesHandler(ctx echo.Context) error {
 func (controller *Controller) CreateProcessHandler(ctx echo.Context) error {
 	request := CreateProcessRequest{}
 	if err := ctx.Bind(&request.Body); err != nil {
-		newErr := errors.New("0", err)
-		log.WithFields(map[string]interface{}{"error": err, "cause": newErr.Cause()}).
-			Error("error getting body").ToErr(newErr)
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+		err = log.WithFields(map[string]interface{}{"error": err}).
+			Error("error getting body").ToError()
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
 	}
 
 	if errs := validator.Validate(request.Body); !errs.IsEmpty() {
-		newErr := errors.New("0", errs)
-		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
-			Error("error when validating body request").ToErr(newErr)
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+		err := errors.New("0", errs)
+		log.WithFields(map[string]interface{}{"error": err.Error()}).
+			Error("error when validating body request").ToError()
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
 	}
 
 	newProcess := Process{
@@ -75,10 +74,10 @@ func (controller *Controller) CreateProcessHandler(ctx echo.Context) error {
 		Status:      request.Body.Status,
 	}
 	if err := controller.interactor.CreateProcess(&newProcess); err != nil {
-		newErr := errors.New("0", err)
-		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
-			Errorf("error creating process %s", request.Body.IdProcess).ToErr(newErr)
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+		err := errors.New("0", err)
+		log.WithFields(map[string]interface{}{"error": err.Error()}).
+			Errorf("error creating process %s", request.Body.IdProcess).ToError()
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
 	} else {
 		return ctx.NoContent(http.StatusCreated)
 	}
@@ -89,17 +88,17 @@ func (controller *Controller) UpdateProcessHandler(ctx echo.Context) error {
 		IdProcess: ctx.Param("id"),
 	}
 	if err := ctx.Bind(&request.Body); err != nil {
-		newErr := errors.New("0", err)
-		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
-			Error("error getting body").ToErr(newErr)
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+		err := errors.New("0", err)
+		log.WithFields(map[string]interface{}{"error": err.Error()}).
+			Error("error getting body").ToError()
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
 	}
 
 	if errs := validator.Validate(request); !errs.IsEmpty() {
-		newErr := errors.New("0", errs)
-		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
-			Error("error when validating body request").ToErr(newErr)
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+		err := errors.New("0", errs)
+		log.WithFields(map[string]interface{}{"error": err.Error()}).
+			Error("error when validating body request").ToError()
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
 	}
 
 	updProcess := Process{
@@ -115,7 +114,7 @@ func (controller *Controller) UpdateProcessHandler(ctx echo.Context) error {
 		Status:      request.Body.Status,
 	}
 	if err := controller.interactor.UpdateProcess(&updProcess); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error(), Cause: err.Cause()})
+		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error()})
 	} else {
 		return ctx.NoContent(http.StatusOK)
 	}
@@ -128,10 +127,10 @@ func (controller *Controller) UpdateProcessStatusHandler(ctx echo.Context) error
 	}
 
 	if errs := validator.Validate(request); !errs.IsEmpty() {
-		newErr := errors.New("0", errs)
-		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
-			Error("error when validating query request").ToErr(newErr)
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+		err := errors.New("0", errs)
+		log.WithFields(map[string]interface{}{"error": err.Error()}).
+			Error("error when validating query request").ToError()
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
 	}
 
 	if errs := controller.interactor.UpdateProcessStatus(request.IdProcess, request.Status); errs != nil {
@@ -148,10 +147,10 @@ func (controller *Controller) UpdateProcessStatusCheckHandler(ctx echo.Context) 
 	}
 
 	if errs := validator.Validate(request); !errs.IsEmpty() {
-		newErr := errors.New("0", errs)
-		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
-			Error("error when validating query request").ToErr(newErr)
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+		err := errors.New("0", errs)
+		log.WithFields(map[string]interface{}{"error": err.Error()}).
+			Error("error when validating query request").ToError()
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
 	}
 
 	if errs := controller.interactor.UpdateProcessStatus(request.IdProcess, request.Status); errs != nil {
@@ -167,17 +166,17 @@ func (controller *Controller) DeleteProcessHandler(ctx echo.Context) error {
 	}
 
 	if errs := validator.Validate(request); !errs.IsEmpty() {
-		newErr := errors.New("0", errs)
-		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
-			Error("error when validating body request").ToErr(newErr)
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+		err := errors.New("0", errs)
+		log.WithFields(map[string]interface{}{"error": err.Error()}).
+			Error("error when validating body request").ToError()
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
 	}
 
 	if err := controller.interactor.DeleteProcess(request.IdProcess); err != nil {
-		newErr := errors.New("0", err)
-		log.WithFields(map[string]interface{}{"error": newErr.Error(), "cause": newErr.Cause()}).
-			Errorf("error deleting process by id %s", request.IdProcess).ToErr(newErr)
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: newErr.Error(), Cause: newErr.Cause()})
+		err := errors.New("0", err)
+		log.WithFields(map[string]interface{}{"error": err.Error()}).
+			Errorf("error deleting process by id %s", request.IdProcess).ToError()
+		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
 	} else {
 		return ctx.NoContent(http.StatusOK)
 	}
@@ -185,7 +184,7 @@ func (controller *Controller) DeleteProcessHandler(ctx echo.Context) error {
 
 func (controller *Controller) DeleteProcessesHandler(ctx echo.Context) error {
 	if err := controller.interactor.DeleteProcesses(); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error(), Cause: err.Cause()})
+		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error()})
 	} else {
 		return ctx.NoContent(http.StatusOK)
 	}

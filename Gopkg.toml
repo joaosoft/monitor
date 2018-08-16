@@ -39,6 +39,10 @@
 
 [[constraint]]
   branch = "master"
+  name = "github.com/joaosoft/types"
+
+[[constraint]]
+  branch = "master"
   name = "github.com/joaosoft/validator"
 
 [[constraint]]

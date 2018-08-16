@@ -20,7 +20,7 @@ func NewStoragePostgres(connection manager.IDB) *StoragePostgres {
 	}
 }
 
-func (storage *StoragePostgres) GetProcess(idProcess string) (*Process, *errors.Err) {
+func (storage *StoragePostgres) GetProcess(idProcess string) (*Process, error) {
 	row := storage.conn.Get().QueryRow(`
 	    SELECT
 		    "type",
@@ -64,7 +64,7 @@ func (storage *StoragePostgres) GetProcess(idProcess string) (*Process, *errors.
 	return process, nil
 }
 
-func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListProcess, *errors.Err) {
+func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListProcess, error) {
 	query := `
 	    SELECT
 			id_process,
@@ -136,7 +136,7 @@ func (storage *StoragePostgres) GetProcesses(values map[string][]string) (ListPr
 	return processes, nil
 }
 
-func (storage *StoragePostgres) CreateProcess(newProcess *Process) *errors.Err {
+func (storage *StoragePostgres) CreateProcess(newProcess *Process) error {
 	if _, err := storage.conn.Get().Exec(`
 		INSERT INTO monitor.process(
 			id_process, 
@@ -169,7 +169,7 @@ func (storage *StoragePostgres) CreateProcess(newProcess *Process) *errors.Err {
 	return nil
 }
 
-func (storage *StoragePostgres) UpdateProcess(updProcess *Process) *errors.Err {
+func (storage *StoragePostgres) UpdateProcess(updProcess *Process) error {
 	if _, err := storage.conn.Get().Exec(`
 		UPDATE monitor.process SET 
 			"type" = $1, 
@@ -202,7 +202,7 @@ func (storage *StoragePostgres) UpdateProcess(updProcess *Process) *errors.Err {
 	return nil
 }
 
-func (storage *StoragePostgres) UpdateProcessStatus(idProcess string, status Status) *errors.Err {
+func (storage *StoragePostgres) UpdateProcessStatus(idProcess string, status Status) error {
 	if _, err := storage.conn.Get().Exec(`
 		UPDATE monitor.process SET 
 			status = $1
@@ -214,7 +214,7 @@ func (storage *StoragePostgres) UpdateProcessStatus(idProcess string, status Sta
 	return nil
 }
 
-func (storage *StoragePostgres) DeleteProcess(idProcess string) *errors.Err {
+func (storage *StoragePostgres) DeleteProcess(idProcess string) error {
 	if _, err := storage.conn.Get().Exec(`
 	    DELETE 
 		FROM monitor.process
@@ -226,7 +226,7 @@ func (storage *StoragePostgres) DeleteProcess(idProcess string) *errors.Err {
 	return nil
 }
 
-func (storage *StoragePostgres) DeleteProcesses() *errors.Err {
+func (storage *StoragePostgres) DeleteProcesses() error {
 	if _, err := storage.conn.Get().Exec(`
 	    DELETE FROM monitor.process`); err != nil {
 		return errors.New("0", err)
