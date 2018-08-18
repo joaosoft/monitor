@@ -2,6 +2,7 @@ package monitor
 
 import (
 	logger "github.com/joaosoft/logger"
+	"github.com/joaosoft/manager"
 )
 
 // MonitorOption ...
@@ -33,5 +34,12 @@ func WithLogger(logger logger.ILogger) MonitorOption {
 func WithLogLevel(level logger.Level) MonitorOption {
 	return func(monitor *Monitor) {
 		log.SetLevel(level)
+	}
+}
+
+// WithManager ...
+func WithManager(mgr *manager.Manager) MonitorOption {
+	return func(dropbox *Monitor) {
+		dropbox.pm = mgr
 	}
 }
