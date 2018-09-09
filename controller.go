@@ -5,10 +5,12 @@ import (
 
 	"github.com/joaosoft/errors"
 	"github.com/joaosoft/validator"
+	"github.com/joaosoft/webserver"
 	"github.com/labstack/echo"
 )
 
 type Controller struct {
+	s.aaa
 	interactor *Interactor
 }
 
@@ -18,9 +20,9 @@ func NewDbMigration(interactor *Interactor) *Controller {
 	}
 }
 
-func (controller *Controller) GetProcessHandler(ctx echo.Context) error {
+func (controller *Controller) GetProcessHandler(ctx web.Context) error {
 	request := GetProcessRequest{
-		IdProcess: ctx.Param("id"),
+		IdProcess: ctx.Request.GetParam("id"),
 	}
 
 	if errs := validator.Validate(request); !errs.IsEmpty() {

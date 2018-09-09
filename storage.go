@@ -58,6 +58,7 @@ func (storage *StoragePostgres) GetProcess(idProcess string) (*Process, error) {
 			return nil, errors.New("0", err)
 		}
 
+
 		return nil, nil
 	}
 

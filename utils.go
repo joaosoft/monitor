@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"os"
 
+	"strings"
+
 	errors "github.com/joaosoft/errors"
 )
 
@@ -89,4 +91,9 @@ func WriteFile(file string, obj interface{}) error {
 	}
 
 	return nil
+}
+
+func EncodeString(s string) string {
+	// http://www.postgresql.org/docs/9.2/static/sql-syntax-lexical.html
+	return `'` + strings.Replace(s, `'`, `''`, -1) + `'`
 }
