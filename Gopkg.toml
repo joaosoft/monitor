@@ -49,10 +49,6 @@
   branch = "master"
   name = "github.com/joaosoft/webserver"
 
-[[constraint]]
-  name = "github.com/lib/pq"
-  version = "1.0.0"
-
 [[override]]
   name = "github.com/satori/go.uuid"
   branch = "master"

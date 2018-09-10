@@ -18,7 +18,7 @@ func NewDbMigration(interactor *Interactor) *Controller {
 
 func (controller *Controller) GetProcessHandler(ctx *webserver.Context) error {
 	request := GetProcessRequest{
-		IdProcess: ctx.Request.GetParam("id"),
+		IdProcess: ctx.Request.GetUrlParam("id"),
 	}
 
 	if errs := validator.Validate(request); len(errs) > 0 {
@@ -35,7 +35,7 @@ func (controller *Controller) GetProcessHandler(ctx *webserver.Context) error {
 }
 
 func (controller *Controller) GetProcessesHandler(ctx *webserver.Context) error {
-	if processes, err := controller.interactor.GetProcesses(ctx.Request.UrlParms); err != nil {
+	if processes, err := controller.interactor.GetProcesses(ctx.Request.Params); err != nil {
 		return ctx.Response.JSON(webserver.StatusInternalServerError, ErrorResponse{Code: webserver.StatusInternalServerError, Message: err.Error()})
 	} else if processes == nil {
 		return ctx.Response.NoContent(webserver.StatusNotFound)
@@ -83,7 +83,7 @@ func (controller *Controller) CreateProcessHandler(ctx *webserver.Context) error
 
 func (controller *Controller) UpdateProcessHandler(ctx *webserver.Context) error {
 	request := UpdateProcessRequest{
-		IdProcess: ctx.Request.GetParam("id"),
+		IdProcess: ctx.Request.GetUrlParam("id"),
 	}
 	if err := ctx.Request.Bind(&request.Body); err != nil {
 		err := errors.New("0", err)
@@ -120,8 +120,8 @@ func (controller *Controller) UpdateProcessHandler(ctx *webserver.Context) error
 
 func (controller *Controller) UpdateProcessStatusHandler(ctx *webserver.Context) error {
 	request := UpdateProcessStatusRequest{
-		IdProcess: ctx.Request.GetParam("id"),
-		Status:    Status(ctx.Request.GetParam("status")),
+		IdProcess: ctx.Request.GetUrlParam("id"),
+		Status:    Status(ctx.Request.GetUrlParam("status")),
 	}
 
 	if errs := validator.Validate(request); len(errs) > 0 {
@@ -140,8 +140,8 @@ func (controller *Controller) UpdateProcessStatusHandler(ctx *webserver.Context)
 
 func (controller *Controller) UpdateProcessStatusCheckHandler(ctx *webserver.Context) error {
 	request := UpdateProcessStatusRequest{
-		IdProcess: ctx.Request.GetParam("id"),
-		Status:    Status(ctx.Request.GetParam("status")),
+		IdProcess: ctx.Request.GetUrlParam("id"),
+		Status:    Status(ctx.Request.GetUrlParam("status")),
 	}
 
 	if errs := validator.Validate(request); len(errs) > 0 {
@@ -151,7 +151,7 @@ func (controller *Controller) UpdateProcessStatusCheckHandler(ctx *webserver.Con
 		return ctx.Response.JSON(webserver.StatusBadRequest, ErrorResponse{Code: webserver.StatusBadRequest, Message: err.Error()})
 	}
 
-	if errs := controller.interactor.UpdateProcessStatus(request.IdProcess, request.Status); errs != nil {
+	if errs := controller.interactor.UpdateProcessStatusCheck(request.IdProcess, request.Status); errs != nil {
 		return ctx.Response.JSON(webserver.StatusInternalServerError, errs)
 	} else {
 		return ctx.Response.NoContent(webserver.StatusOK)
@@ -160,7 +160,7 @@ func (controller *Controller) UpdateProcessStatusCheckHandler(ctx *webserver.Con
 
 func (controller *Controller) DeleteProcessHandler(ctx *webserver.Context) error {
 	request := DeleteProcessRequest{
-		IdProcess: ctx.Request.GetParam("id"),
+		IdProcess: ctx.Request.GetUrlParam("id"),
 	}
 
 	if errs := validator.Validate(request); len(errs) > 0 {

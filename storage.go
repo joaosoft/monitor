@@ -7,7 +7,6 @@ import (
 
 	errors "github.com/joaosoft/errors"
 	manager "github.com/joaosoft/manager"
-	"github.com/lib/pq"
 )
 
 type StoragePostgres struct {
@@ -192,7 +191,7 @@ func (storage *StoragePostgres) UpdateProcess(updProcess *Process) error {
 		updProcess.DateTo,
 		updProcess.TimeFrom,
 		updProcess.TimeTo,
-		pq.Array(updProcess.DaysOff),
+		updProcess.DaysOff,
 		updProcess.Monitor,
 		updProcess.Status,
 		updProcess.UpdatedAt,
