@@ -58,7 +58,7 @@
   branch = "master"
   name = "github.com/joaosoft/manager"
   packages = ["."]
-  revision = "446babbcee6f69fd12224d84b222e6ef75e55bac"
+  revision = "18c945d6186204d487ed6406fd8155b1500d32e4"
 
 [[projects]]
   branch = "master"
@@ -76,7 +76,7 @@
   branch = "master"
   name = "github.com/joaosoft/webserver"
   packages = ["."]
-  revision = "36423a030785969ec0354d1f9d7f82e1062346fb"
+  revision = "2be656afdcaf7d73b1855dfb1d548e1291dca0f7"
 
 [[projects]]
   branch = "master"
@@ -145,10 +145,10 @@
   version = "v1.2.0"
 
 [[projects]]
+  branch = "master"
   name = "github.com/satori/go.uuid"
   packages = ["."]
-  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
-  version = "v1.2.0"
+  revision = "36e9d2ebbde5e3f13ab2e25625fd453271d6522e"
 
 [[projects]]
   name = "github.com/spf13/afero"
@@ -244,6 +244,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "2aa838e3cbd6bf7c20f70f8b7f9de97dda271d117f0e03fe46813c69f82f5a88"
+  inputs-digest = "2dfe5a75ff4948da42fb3b30b2b98c8ed2cb632618b3ed413ab6299b19b5b5e0"
   solver-name = "gps-cdcl"
   solver-version = 1

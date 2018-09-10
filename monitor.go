@@ -51,7 +51,7 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 		return nil, err
 	}
 
-	web := manager.NewSimpleWebEcho(monitor.config.Host)
+	web := manager.NewSimpleWebServer(monitor.config.Host)
 	controller := NewDbMigration(NewInteractor(NewStoragePostgres(simpleDB)))
 	controller.RegisterRoutes(web)
 

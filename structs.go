@@ -4,12 +4,13 @@ import (
 	types "github.com/joaosoft/types"
 
 	"time"
+	"github.com/joaosoft/webserver"
 )
 
 type Status string
 
 type ErrorResponse struct {
-	Code    int    `json:"code,omitempty"`
+	Code    webserver.Status    `json:"code,omitempty"`
 	Message string `json:"message,omitempty"`
 	Cause   string `json:"cause,omitempty"`
 }

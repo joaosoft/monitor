@@ -50,12 +50,12 @@
   name = "github.com/joaosoft/webserver"
 
 [[constraint]]
-  name = "github.com/labstack/echo"
-  version = "3.3.5"
-
-[[constraint]]
   name = "github.com/lib/pq"
   version = "1.0.0"
+
+[[override]]
+  name = "github.com/satori/go.uuid"
+  branch = "master"
 
 [prune]
   go-tests = true

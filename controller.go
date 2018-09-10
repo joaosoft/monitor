@@ -1,16 +1,12 @@
 package monitor
 
 import (
-	"net/http"
-
 	"github.com/joaosoft/errors"
 	"github.com/joaosoft/validator"
 	"github.com/joaosoft/webserver"
-	"github.com/labstack/echo"
 )
 
 type Controller struct {
-	s.aaa
 	interactor *Interactor
 }
 
@@ -20,47 +16,47 @@ func NewDbMigration(interactor *Interactor) *Controller {
 	}
 }
 
-func (controller *Controller) GetProcessHandler(ctx web.Context) error {
+func (controller *Controller) GetProcessHandler(ctx *webserver.Context) error {
 	request := GetProcessRequest{
 		IdProcess: ctx.Request.GetParam("id"),
 	}
 
-	if errs := validator.Validate(request); !errs.IsEmpty() {
-		return ctx.JSON(http.StatusBadRequest, errs)
+	if errs := validator.Validate(request); len(errs) > 0 {
+		return ctx.Response.JSON(webserver.StatusBadRequest, errs)
 	}
 
 	if process, err := controller.interactor.GetProcess(request.IdProcess); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusInternalServerError, ErrorResponse{Code: webserver.StatusInternalServerError, Message: err.Error()})
 	} else if process == nil {
-		return ctx.NoContent(http.StatusNotFound)
+		return ctx.Response.NoContent(webserver.StatusNotFound)
 	} else {
-		return ctx.JSON(http.StatusOK, process)
+		return ctx.Response.JSON(webserver.StatusOK, process)
 	}
 }
 
-func (controller *Controller) GetProcessesHandler(ctx echo.Context) error {
-	if processes, err := controller.interactor.GetProcesses(ctx.QueryParams()); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error()})
+func (controller *Controller) GetProcessesHandler(ctx *webserver.Context) error {
+	if processes, err := controller.interactor.GetProcesses(ctx.Request.UrlParms); err != nil {
+		return ctx.Response.JSON(webserver.StatusInternalServerError, ErrorResponse{Code: webserver.StatusInternalServerError, Message: err.Error()})
 	} else if processes == nil {
-		return ctx.NoContent(http.StatusNotFound)
+		return ctx.Response.NoContent(webserver.StatusNotFound)
 	} else {
-		return ctx.JSON(http.StatusOK, processes)
+		return ctx.Response.JSON(webserver.StatusOK, processes)
 	}
 }
 
-func (controller *Controller) CreateProcessHandler(ctx echo.Context) error {
+func (controller *Controller) CreateProcessHandler(ctx *webserver.Context) error {
 	request := CreateProcessRequest{}
-	if err := ctx.Bind(&request.Body); err != nil {
+	if err := ctx.Request.Bind(&request.Body); err != nil {
 		err = log.WithFields(map[string]interface{}{"error": err}).
 			Error("error getting body").ToError()
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusBadRequest, ErrorResponse{Code: webserver.StatusBadRequest, Message: err.Error()})
 	}
 
-	if errs := validator.Validate(request.Body); !errs.IsEmpty() {
+	if errs := validator.Validate(request.Body); len(errs) > 0 {
 		err := errors.New("0", errs)
 		log.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error when validating body request").ToError()
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusBadRequest, ErrorResponse{Code: webserver.StatusBadRequest, Message: err.Error()})
 	}
 
 	newProcess := Process{
@@ -79,28 +75,28 @@ func (controller *Controller) CreateProcessHandler(ctx echo.Context) error {
 		err := errors.New("0", err)
 		log.WithFields(map[string]interface{}{"error": err.Error()}).
 			Errorf("error creating process %s", request.Body.IdProcess).ToError()
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusBadRequest, ErrorResponse{Code: webserver.StatusBadRequest, Message: err.Error()})
 	} else {
-		return ctx.NoContent(http.StatusCreated)
+		return ctx.Response.NoContent(webserver.StatusCreated)
 	}
 }
 
-func (controller *Controller) UpdateProcessHandler(ctx echo.Context) error {
+func (controller *Controller) UpdateProcessHandler(ctx *webserver.Context) error {
 	request := UpdateProcessRequest{
-		IdProcess: ctx.Param("id"),
+		IdProcess: ctx.Request.GetParam("id"),
 	}
-	if err := ctx.Bind(&request.Body); err != nil {
+	if err := ctx.Request.Bind(&request.Body); err != nil {
 		err := errors.New("0", err)
 		log.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error getting body").ToError()
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusBadRequest, ErrorResponse{Code: webserver.StatusBadRequest, Message: err.Error()})
 	}
 
-	if errs := validator.Validate(request); !errs.IsEmpty() {
+	if errs := validator.Validate(request); len(errs) > 0 {
 		err := errors.New("0", errs)
 		log.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error when validating body request").ToError()
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusBadRequest, ErrorResponse{Code: webserver.StatusBadRequest, Message: err.Error()})
 	}
 
 	updProcess := Process{
@@ -116,78 +112,78 @@ func (controller *Controller) UpdateProcessHandler(ctx echo.Context) error {
 		Status:      request.Body.Status,
 	}
 	if err := controller.interactor.UpdateProcess(&updProcess); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusInternalServerError, ErrorResponse{Code: webserver.StatusInternalServerError, Message: err.Error()})
 	} else {
-		return ctx.NoContent(http.StatusOK)
+		return ctx.Response.NoContent(webserver.StatusOK)
 	}
 }
 
-func (controller *Controller) UpdateProcessStatusHandler(ctx echo.Context) error {
+func (controller *Controller) UpdateProcessStatusHandler(ctx *webserver.Context) error {
 	request := UpdateProcessStatusRequest{
-		IdProcess: ctx.Param("id"),
-		Status:    Status(ctx.Param("status")),
+		IdProcess: ctx.Request.GetParam("id"),
+		Status:    Status(ctx.Request.GetParam("status")),
 	}
 
-	if errs := validator.Validate(request); !errs.IsEmpty() {
+	if errs := validator.Validate(request); len(errs) > 0 {
 		err := errors.New("0", errs)
 		log.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error when validating query request").ToError()
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusBadRequest, ErrorResponse{Code: webserver.StatusBadRequest, Message: err.Error()})
 	}
 
 	if errs := controller.interactor.UpdateProcessStatus(request.IdProcess, request.Status); errs != nil {
-		return ctx.JSON(http.StatusInternalServerError, errs)
+		return ctx.Response.JSON(webserver.StatusInternalServerError, errs)
 	} else {
-		return ctx.NoContent(http.StatusOK)
+		return ctx.Response.NoContent(webserver.StatusOK)
 	}
 }
 
-func (controller *Controller) UpdateProcessStatusCheckHandler(ctx echo.Context) error {
+func (controller *Controller) UpdateProcessStatusCheckHandler(ctx *webserver.Context) error {
 	request := UpdateProcessStatusRequest{
-		IdProcess: ctx.Param("id"),
-		Status:    Status(ctx.Param("status")),
+		IdProcess: ctx.Request.GetParam("id"),
+		Status:    Status(ctx.Request.GetParam("status")),
 	}
 
-	if errs := validator.Validate(request); !errs.IsEmpty() {
+	if errs := validator.Validate(request); len(errs) > 0 {
 		err := errors.New("0", errs)
 		log.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error when validating query request").ToError()
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusBadRequest, ErrorResponse{Code: webserver.StatusBadRequest, Message: err.Error()})
 	}
 
 	if errs := controller.interactor.UpdateProcessStatus(request.IdProcess, request.Status); errs != nil {
-		return ctx.JSON(http.StatusInternalServerError, errs)
+		return ctx.Response.JSON(webserver.StatusInternalServerError, errs)
 	} else {
-		return ctx.NoContent(http.StatusOK)
+		return ctx.Response.NoContent(webserver.StatusOK)
 	}
 }
 
-func (controller *Controller) DeleteProcessHandler(ctx echo.Context) error {
+func (controller *Controller) DeleteProcessHandler(ctx *webserver.Context) error {
 	request := DeleteProcessRequest{
-		IdProcess: ctx.Param("id"),
+		IdProcess: ctx.Request.GetParam("id"),
 	}
 
-	if errs := validator.Validate(request); !errs.IsEmpty() {
+	if errs := validator.Validate(request); len(errs) > 0 {
 		err := errors.New("0", errs)
 		log.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error when validating body request").ToError()
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusBadRequest, ErrorResponse{Code: webserver.StatusBadRequest, Message: err.Error()})
 	}
 
 	if err := controller.interactor.DeleteProcess(request.IdProcess); err != nil {
 		err := errors.New("0", err)
 		log.WithFields(map[string]interface{}{"error": err.Error()}).
 			Errorf("error deleting process by id %s", request.IdProcess).ToError()
-		return ctx.JSON(http.StatusBadRequest, ErrorResponse{Code: http.StatusBadRequest, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusBadRequest, ErrorResponse{Code: webserver.StatusBadRequest, Message: err.Error()})
 	} else {
-		return ctx.NoContent(http.StatusOK)
+		return ctx.Response.NoContent(webserver.StatusOK)
 	}
 }
 
-func (controller *Controller) DeleteProcessesHandler(ctx echo.Context) error {
+func (controller *Controller) DeleteProcessesHandler(ctx *webserver.Context) error {
 	if err := controller.interactor.DeleteProcesses(); err != nil {
-		return ctx.JSON(http.StatusInternalServerError, ErrorResponse{Code: http.StatusInternalServerError, Message: err.Error()})
+		return ctx.Response.JSON(webserver.StatusInternalServerError, ErrorResponse{Code: webserver.StatusInternalServerError, Message: err.Error()})
 	} else {
-		return ctx.NoContent(http.StatusOK)
+		return ctx.Response.NoContent(webserver.StatusOK)
 	}
 }
