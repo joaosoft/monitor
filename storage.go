@@ -58,7 +58,6 @@ func (storage *StoragePostgres) GetProcess(idProcess string) (*Process, error) {
 			return nil, errors.New("0", err)
 		}
 
-
 		return nil, nil
 	}
 
@@ -164,6 +163,7 @@ func (storage *StoragePostgres) CreateProcess(newProcess *Process) error {
 		newProcess.DaysOff,
 		newProcess.Monitor,
 		newProcess.Status); err != nil {
+		fmt.Println(err)
 		return errors.New("0", err)
 	}
 

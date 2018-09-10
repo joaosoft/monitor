@@ -58,7 +58,7 @@
   branch = "master"
   name = "github.com/joaosoft/manager"
   packages = ["."]
-  revision = "18c945d6186204d487ed6406fd8155b1500d32e4"
+  revision = "89345c497f75a4178aee857277073e29e419d905"
 
 [[projects]]
   branch = "master"
@@ -70,7 +70,7 @@
   branch = "master"
   name = "github.com/joaosoft/validator"
   packages = ["."]
-  revision = "4851bcb42badebf315f579799a87a354ea9db123"
+  revision = "e901b6e276491b2ed10911eb1d9d6f809cb4fcd1"
 
 [[projects]]
   branch = "master"
@@ -208,7 +208,7 @@
     "acme",
     "acme/autocert"
   ]
-  revision = "0709b304e793a5edb4a2c0145f281ecdc20838a4"
+  revision = "0e37d006457bf46f9e6692014ba72ef82c33022c"
 
 [[projects]]
   branch = "master"
