@@ -44,6 +44,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/joaosoft/color"
+  packages = ["."]
+  revision = "17caec6046388cea5751f441ef6b06a7a572abf2"
+
+[[projects]]
+  branch = "master"
   name = "github.com/joaosoft/errors"
   packages = ["."]
   revision = "3ebf6983bd704eae5217e69e4371dd3f13834572"
@@ -58,7 +64,7 @@
   branch = "master"
   name = "github.com/joaosoft/manager"
   packages = ["."]
-  revision = "894d3a8b2d0859a1323751765f936e3f202f5ddf"
+  revision = "e39b649a689828ea54d0093a5ea51cc4ae74af6a"
 
 [[projects]]
   branch = "master"
@@ -70,13 +76,19 @@
   branch = "master"
   name = "github.com/joaosoft/validator"
   packages = ["."]
-  revision = "e901b6e276491b2ed10911eb1d9d6f809cb4fcd1"
+  revision = "103f8ae368f6fac30a7d7251d2fdd86c83edf5e9"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/joaosoft/web"
+  packages = ["."]
+  revision = "66a3c5b4fb215def4d26a4f740b8350815b68ac2"
 
 [[projects]]
   branch = "master"
   name = "github.com/joaosoft/webserver"
   packages = ["."]
-  revision = "6d8e5deb27e4d141cd06f258f11aaf418ffc96d0"
+  revision = "66a3c5b4fb215def4d26a4f740b8350815b68ac2"
 
 [[projects]]
   branch = "master"
@@ -87,8 +99,8 @@
 [[projects]]
   name = "github.com/labstack/echo"
   packages = ["."]
-  revision = "6d227dfea4d2e52cb76856120b3c17f758139b4e"
-  version = "3.3.5"
+  revision = "1abaa3049251d17932e4313c2d6165073fd07fd8"
+  version = "v3.3.6"
 
 [[projects]]
   name = "github.com/labstack/gommon"
@@ -96,8 +108,8 @@
     "color",
     "log"
   ]
-  revision = "d6898124de917583f5ff5592ef931d1dfe0ddc05"
-  version = "0.2.6"
+  revision = "2a618302b929cc20862dda3aa6f02f64dbe740dd"
+  version = "v0.2.7"
 
 [[projects]]
   name = "github.com/lib/pq"
@@ -214,7 +226,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "d0be0721c37eeb5299f245a996a483160fc36940"
+  revision = "d641721ec2dead6fe5ca284096fe4b1fcd49e427"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -232,8 +244,8 @@
 [[projects]]
   name = "google.golang.org/appengine"
   packages = ["cloudsql"]
-  revision = "b1f26356af11148e710935ed1ac8a7f5702c7612"
-  version = "v1.1.0"
+  revision = "ae0ab99deb4dc413a2b4bd6c8bdd0eb67f1e4d06"
+  version = "v1.2.0"
 
 [[projects]]
   name = "gopkg.in/yaml.v2"
@@ -244,6 +256,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f66bb2ad7f05ccf211724fbeb1cb276f3f5f8c092fc5c9ad44ae4fe3c1f04f80"
+  inputs-digest = "2ab7cad94d15fe205a5fb39f9f3ac1d0ae881502cd6057fa1048013ca6111c2d"
   solver-name = "gps-cdcl"
   solver-version = 1
