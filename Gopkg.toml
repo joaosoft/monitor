@@ -49,10 +49,6 @@
   branch = "master"
   name = "github.com/joaosoft/web"
 
-[[constraint]]
-  branch = "master"
-  name = "github.com/joaosoft/webserver"
-
 [[override]]
   name = "github.com/satori/go.uuid"
   branch = "master"

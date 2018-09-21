@@ -1,18 +1,18 @@
 package monitor
 
 import (
-	types "github.com/joaosoft/types"
+	"github.com/joaosoft/types"
+	"github.com/joaosoft/web"
 
 	"time"
-	"github.com/joaosoft/webserver"
 )
 
 type Status string
 
 type ErrorResponse struct {
-	Code    webserver.Status    `json:"code,omitempty"`
-	Message string `json:"message,omitempty"`
-	Cause   string `json:"cause,omitempty"`
+	Code    web.Status `json:"code,omitempty"`
+	Message string     `json:"message,omitempty"`
+	Cause   string     `json:"cause,omitempty"`
 }
 
 type GetProcessRequest struct {
