@@ -10,7 +10,7 @@ type Controller struct {
 	interactor *Interactor
 }
 
-func NewDbMigration(interactor *Interactor) *Controller {
+func NewController(interactor *Interactor) *Controller {
 	return &Controller{
 		interactor: interactor,
 	}

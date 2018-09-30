@@ -52,7 +52,7 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 	}
 
 	web := manager.NewSimpleWebServer(monitor.config.Host)
-	controller := NewDbMigration(NewInteractor(NewStoragePostgres(simpleDB)))
+	controller := NewController(NewInteractor(NewStoragePostgres(simpleDB)))
 	controller.RegisterRoutes(web)
 
 	monitor.pm.AddWeb("api_web", web)
