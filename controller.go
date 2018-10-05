@@ -16,6 +16,10 @@ func NewController(interactor *Interactor) *Controller {
 	}
 }
 
+func (controller *Controller) DoNothing(ctx *web.Context) error {
+	return nil
+}
+
 func (controller *Controller) GetProcessHandler(ctx *web.Context) error {
 	request := GetProcessRequest{
 		IdProcess: ctx.Request.GetUrlParam("id"),

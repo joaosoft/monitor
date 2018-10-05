@@ -76,13 +76,13 @@
   branch = "master"
   name = "github.com/joaosoft/validator"
   packages = ["."]
-  revision = "103f8ae368f6fac30a7d7251d2fdd86c83edf5e9"
+  revision = "d48f594abc5ca594353d048f0d95b62572ed5228"
 
 [[projects]]
   branch = "master"
   name = "github.com/joaosoft/web"
   packages = ["."]
-  revision = "befe5e7904acba880ada836b606a5ba5ceefa12c"
+  revision = "af95d60ff1d737e576a034d49d5e12088b877aec"
 
 [[projects]]
   branch = "master"
@@ -135,8 +135,8 @@
 [[projects]]
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
-  revision = "fa473d140ef3c6adf42d6b391fe76707f1f243c8"
-  version = "v1.0.0"
+  revision = "3536a929edddb9a5b34bd6861dc4a9647cb459fe"
+  version = "v1.1.2"
 
 [[projects]]
   name = "github.com/nsqio/go-nsq"
@@ -180,14 +180,14 @@
 [[projects]]
   name = "github.com/spf13/pflag"
   packages = ["."]
-  revision = "9a97c102cda95a86cec2345a6f09f55a939babf5"
-  version = "v1.0.2"
+  revision = "298182f68c66c05229eb03ac171abe6e309ee79a"
+  version = "v1.0.3"
 
 [[projects]]
   name = "github.com/spf13/viper"
   packages = ["."]
-  revision = "8fb642006536c8d3760c99d4fa2389f5e2205631"
-  version = "v1.2.0"
+  revision = "2c12c60302a5a0e62ee102ca9bc996277c2f64f5"
+  version = "v1.2.1"
 
 [[projects]]
   branch = "master"
@@ -214,13 +214,13 @@
     "acme",
     "acme/autocert"
   ]
-  revision = "0e37d006457bf46f9e6692014ba72ef82c33022c"
+  revision = "e3636079e1a4c1f337f212cc5cd2aca108f6c900"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "d641721ec2dead6fe5ca284096fe4b1fcd49e427"
+  revision = "8469e314837c2e2471561de5c47bbf8bfd0d9099"
 
 [[projects]]
   name = "golang.org/x/text"
