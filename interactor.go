@@ -87,7 +87,7 @@ func (interactor *Interactor) UpdateProcessStatus(idProcess string, status Statu
 		if err := interactor.storageDB.UpdateProcessStatus(idProcess, status); err != nil {
 			err = log.WithFields(map[string]interface{}{"error": err.Error()}).
 				Errorf("error updating process %s to status %s on storage database %s", idProcess, status, err).ToError()
-			return []*errors.Err{errors.New("0", err)}
+			return []*errors.Err{errors.New(errors.ErrorLevel, 0, err)}
 		} else {
 			return nil
 		}
@@ -135,12 +135,12 @@ func (interactor *Interactor) CanExecute(idProcess string) (bool, errors.ListErr
 	if err != nil {
 		err = log.WithFields(map[string]interface{}{"error": err.Error()}).
 			Errorf("error getting process %s on storage database %s", idProcess, err).ToError()
-		return false, []*errors.Err{errors.New("0", err)}
+		return false, []*errors.Err{errors.New(errors.ErrorLevel, 0, err)}
 	}
 
 	now := time.Now()
 	if process.Status != nil && *process.Status == StatusRunning {
-		errors.New("0", "the process is already running!")
+		errors.New(errors.ErrorLevel, 0, "the process is already running!")
 	}
 	if process.DaysOff != nil && process.DaysOff.Contains(types.Day(strings.ToLower(now.Weekday().String()))) {
 		errs.Add(errors.New("1", "the process cannot the executed on %+v!", process.DaysOff))
