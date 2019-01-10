@@ -52,7 +52,7 @@
   branch = "master"
   name = "github.com/joaosoft/errors"
   packages = ["."]
-  revision = "fdf3056873e72340b59c5b286ca94b07ae6fcf37"
+  revision = "35b0421bd1ff2bdb8ced1c421fc736c8dac421c9"
 
 [[projects]]
   branch = "master"
@@ -70,13 +70,13 @@
   branch = "master"
   name = "github.com/joaosoft/types"
   packages = ["."]
-  revision = "2f136db6311996e9cf50cf2e0255d4bb5bf94e42"
+  revision = "34b809f0c0cf8f45616cc79c1ca1303e7237d811"
 
 [[projects]]
   branch = "master"
   name = "github.com/joaosoft/validator"
   packages = ["."]
-  revision = "95bcf28868f132b3a7145a6773a25cd8c8e76fcf"
+  revision = "42630c4f738f9f5ea2ab1c8a001441994b5df64d"
 
 [[projects]]
   branch = "master"
@@ -220,7 +220,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "82a175fd1598e8a172e58ebdf5ed262bb29129e5"
+  revision = "48ac38b7c8cbedd50b1613c0fccacfc7d88dfcdf"
 
 [[projects]]
   name = "golang.org/x/text"
