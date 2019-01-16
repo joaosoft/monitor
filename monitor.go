@@ -30,14 +30,14 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 	appConfig := &AppConfig{}
 	if simpleConfig, err := manager.NewSimpleConfig(fmt.Sprintf("/config/app.%s.json", GetEnv()), appConfig); err != nil {
 		log.Error(err.Error())
-	} else {
+	} else if appConfig.Monitor != nil {
 		monitor.pm.AddConfig("config_app", simpleConfig)
 		level, _ := logger.ParseLevel(appConfig.Monitor.Log.Level)
 		log.Debugf("setting log level to %s", level)
 		log.Reconfigure(logger.WithLevel(level))
 	}
 
-	monitor.config = &appConfig.Monitor
+	monitor.config = appConfig.Monitor
 
 	monitor.Reconfigure(options...)
 

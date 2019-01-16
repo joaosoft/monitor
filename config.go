@@ -8,7 +8,7 @@ import (
 
 // AppConfig ...
 type AppConfig struct {
-	Monitor MonitorConfig `json:"monitor"`
+	Monitor *MonitorConfig `json:"monitor"`
 }
 
 // MonitorConfig ...
@@ -29,5 +29,5 @@ func NewConfig(host string, db manager.DBConfig) *MonitorConfig {
 
 	appConfig.Monitor.Host = host
 
-	return &appConfig.Monitor
+	return appConfig.Monitor
 }
