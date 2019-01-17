@@ -19,7 +19,8 @@ type Monitor struct {
 // NewMonitor ...
 func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 	monitor := &Monitor{
-		pm: manager.NewManager(manager.WithRunInBackground(false)),
+		pm:     manager.NewManager(manager.WithRunInBackground(false)),
+		config: &MonitorConfig{},
 	}
 
 	if monitor.isLogExternal {
@@ -35,9 +36,8 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 		level, _ := logger.ParseLevel(appConfig.Monitor.Log.Level)
 		log.Debugf("setting log level to %s", level)
 		log.Reconfigure(logger.WithLevel(level))
+		monitor.config = appConfig.Monitor
 	}
-
-	monitor.config = appConfig.Monitor
 
 	monitor.Reconfigure(options...)
 
