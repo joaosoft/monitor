@@ -2,17 +2,20 @@ package monitor
 
 import (
 	"github.com/joaosoft/errors"
+	"github.com/joaosoft/logger"
 	"github.com/joaosoft/validator"
 	"github.com/joaosoft/web"
 )
 
 type Controller struct {
 	interactor *Interactor
+	logger logger.ILogger
 }
 
-func NewController(interactor *Interactor) *Controller {
+func (monitor *Monitor) NewController(interactor *Interactor) *Controller {
 	return &Controller{
 		interactor: interactor,
+		logger: monitor.logger,
 	}
 }
 
@@ -51,14 +54,14 @@ func (controller *Controller) GetProcessesHandler(ctx *web.Context) error {
 func (controller *Controller) CreateProcessHandler(ctx *web.Context) error {
 	request := CreateProcessRequest{}
 	if err := ctx.Request.Bind(&request.Body); err != nil {
-		err = log.WithFields(map[string]interface{}{"error": err}).
+		err = controller.logger.WithFields(map[string]interface{}{"error": err}).
 			Error("error getting body").ToError()
 		return ctx.Response.JSON(web.StatusBadRequest, ErrorResponse{Code: web.StatusBadRequest, Message: err.Error()})
 	}
 
 	if errs := validator.Validate(request.Body); len(errs) > 0 {
 		err := errors.New(errors.ErrorLevel, 0, errs)
-		log.WithFields(map[string]interface{}{"error": err.Error()}).
+		controller.logger.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error when validating body request").ToError()
 		return ctx.Response.JSON(web.StatusBadRequest, ErrorResponse{Code: web.StatusBadRequest, Message: err.Error()})
 	}
@@ -77,7 +80,7 @@ func (controller *Controller) CreateProcessHandler(ctx *web.Context) error {
 	}
 	if err := controller.interactor.CreateProcess(&newProcess); err != nil {
 		err := errors.New(errors.ErrorLevel, 0, err)
-		log.WithFields(map[string]interface{}{"error": err.Error()}).
+		controller.logger.WithFields(map[string]interface{}{"error": err.Error()}).
 			Errorf("error creating process %s", request.Body.IdProcess).ToError()
 		return ctx.Response.JSON(web.StatusBadRequest, ErrorResponse{Code: web.StatusBadRequest, Message: err.Error()})
 	} else {
@@ -91,14 +94,14 @@ func (controller *Controller) UpdateProcessHandler(ctx *web.Context) error {
 	}
 	if err := ctx.Request.Bind(&request.Body); err != nil {
 		err := errors.New(errors.ErrorLevel, 0, err)
-		log.WithFields(map[string]interface{}{"error": err.Error()}).
+		controller.logger.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error getting body").ToError()
 		return ctx.Response.JSON(web.StatusBadRequest, ErrorResponse{Code: web.StatusBadRequest, Message: err.Error()})
 	}
 
 	if errs := validator.Validate(request); len(errs) > 0 {
 		err := errors.New(errors.ErrorLevel, 0, errs)
-		log.WithFields(map[string]interface{}{"error": err.Error()}).
+		controller.logger.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error when validating body request").ToError()
 		return ctx.Response.JSON(web.StatusBadRequest, ErrorResponse{Code: web.StatusBadRequest, Message: err.Error()})
 	}
@@ -130,7 +133,7 @@ func (controller *Controller) UpdateProcessStatusHandler(ctx *web.Context) error
 
 	if errs := validator.Validate(request); len(errs) > 0 {
 		err := errors.New(errors.ErrorLevel, 0, errs)
-		log.WithFields(map[string]interface{}{"error": err.Error()}).
+		controller.logger.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error when validating query request").ToError()
 		return ctx.Response.JSON(web.StatusBadRequest, ErrorResponse{Code: web.StatusBadRequest, Message: err.Error()})
 	}
@@ -150,7 +153,7 @@ func (controller *Controller) UpdateProcessStatusCheckHandler(ctx *web.Context) 
 
 	if errs := validator.Validate(request); len(errs) > 0 {
 		err := errors.New(errors.ErrorLevel, 0, errs)
-		log.WithFields(map[string]interface{}{"error": err.Error()}).
+		controller.logger.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error when validating query request").ToError()
 		return ctx.Response.JSON(web.StatusBadRequest, ErrorResponse{Code: web.StatusBadRequest, Message: err.Error()})
 	}
@@ -169,14 +172,14 @@ func (controller *Controller) DeleteProcessHandler(ctx *web.Context) error {
 
 	if errs := validator.Validate(request); len(errs) > 0 {
 		err := errors.New(errors.ErrorLevel, 0, errs)
-		log.WithFields(map[string]interface{}{"error": err.Error()}).
+		controller.logger.WithFields(map[string]interface{}{"error": err.Error()}).
 			Error("error when validating body request").ToError()
 		return ctx.Response.JSON(web.StatusBadRequest, ErrorResponse{Code: web.StatusBadRequest, Message: err.Error()})
 	}
 
 	if err := controller.interactor.DeleteProcess(request.IdProcess); err != nil {
 		err := errors.New(errors.ErrorLevel, 0, err)
-		log.WithFields(map[string]interface{}{"error": err.Error()}).
+		controller.logger.WithFields(map[string]interface{}{"error": err.Error()}).
 			Errorf("error deleting process by id %s", request.IdProcess).ToError()
 		return ctx.Response.JSON(web.StatusBadRequest, ErrorResponse{Code: web.StatusBadRequest, Message: err.Error()})
 	} else {

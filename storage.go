@@ -2,6 +2,7 @@ package monitor
 
 import (
 	"database/sql"
+	"github.com/joaosoft/logger"
 
 	"fmt"
 
@@ -11,11 +12,13 @@ import (
 
 type StoragePostgres struct {
 	conn manager.IDB
+	logger logger.ILogger
 }
 
-func NewStoragePostgres(connection manager.IDB) *StoragePostgres {
+func (monitor *Monitor) NewStoragePostgres(connection manager.IDB) *StoragePostgres {
 	return &StoragePostgres{
 		conn: connection,
+		logger: monitor.logger,
 	}
 }
 
