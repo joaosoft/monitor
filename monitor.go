@@ -1,12 +1,10 @@
 package monitor
 
 import (
-	"fmt"
-
 	"sync"
 
-	logger "github.com/joaosoft/logger"
-	manager "github.com/joaosoft/manager"
+	"github.com/joaosoft/logger"
+	"github.com/joaosoft/manager"
 )
 
 type Monitor struct {
@@ -18,25 +16,23 @@ type Monitor struct {
 
 // NewMonitor ...
 func NewMonitor(options ...MonitorOption) (*Monitor, error) {
+	config, simpleConfig, err := NewConfig()
 	monitor := &Monitor{
 		pm:     manager.NewManager(manager.WithRunInBackground(false)),
-		config: &MonitorConfig{},
+		config: &config.Monitor,
 	}
 
 	if monitor.isLogExternal {
 		monitor.pm.Reconfigure(manager.WithLogger(log))
 	}
 
-	// load configuration File
-	appConfig := &AppConfig{}
-	if simpleConfig, err := manager.NewSimpleConfig(fmt.Sprintf("/config/app.%s.json", GetEnv()), appConfig); err != nil {
+	if err != nil {
 		log.Error(err.Error())
-	} else if appConfig.Monitor != nil {
+	} else {
 		monitor.pm.AddConfig("config_app", simpleConfig)
-		level, _ := logger.ParseLevel(appConfig.Monitor.Log.Level)
+		level, _ := logger.ParseLevel(config.Monitor.Log.Level)
 		log.Debugf("setting log level to %s", level)
 		log.Reconfigure(logger.WithLevel(level))
-		monitor.config = appConfig.Monitor
 	}
 
 	monitor.Reconfigure(options...)
@@ -45,7 +41,7 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 		monitor.config.Host = DefaultURL
 	}
 
-	simpleDB := manager.NewSimpleDB(&appConfig.Monitor.Db)
+	simpleDB := manager.NewSimpleDB(&config.Monitor.Db)
 	if err := monitor.pm.AddDB("db_postgres", simpleDB); err != nil {
 		log.Error(err.Error())
 		return nil, err

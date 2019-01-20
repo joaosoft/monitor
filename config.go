@@ -8,7 +8,7 @@ import (
 
 // AppConfig ...
 type AppConfig struct {
-	Monitor *MonitorConfig `json:"monitor"`
+	Monitor MonitorConfig `json:"monitor"`
 }
 
 // MonitorConfig ...
@@ -21,13 +21,9 @@ type MonitorConfig struct {
 }
 
 // NewConfig ...
-func NewConfig() (*MonitorConfig, error) {
+func NewConfig() (*AppConfig, manager.IConfig, error) {
 	appConfig := &AppConfig{}
-	if _, err := manager.NewSimpleConfig(fmt.Sprintf("/config/app.%s.json", GetEnv()), appConfig); err != nil {
-		log.Error(err.Error())
+	simpleConfig, err := manager.NewSimpleConfig(fmt.Sprintf("/config/app.%s.json", GetEnv()), appConfig)
 
-		return &MonitorConfig{}, err
-	}
-
-	return appConfig.Monitor, nil
+	return appConfig, simpleConfig, err
 }
