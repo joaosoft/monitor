@@ -45,13 +45,13 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 		service.config.Host = DefaultURL
 	}
 
-	simpleDB := manager.NewSimpleDB(&config.Monitor.Db)
+	simpleDB := service.pm.NewSimpleDB(&config.Monitor.Db)
 	if err := service.pm.AddDB("db_postgres", simpleDB); err != nil {
 		log.Error(err.Error())
 		return nil, err
 	}
 
-	web := manager.NewSimpleWebServer(service.config.Host)
+	web := service.pm.NewSimpleWebServer(service.config.Host)
 	controller := service.NewController(service.NewInteractor(service.NewStoragePostgres(simpleDB)))
 	controller.RegisterRoutes(web)
 
