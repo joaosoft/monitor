@@ -1,7 +1,7 @@
 package monitor
 
 import (
-	logger "github.com/joaosoft/logger"
+	"github.com/joaosoft/logger"
 	"github.com/joaosoft/manager"
 )
 
@@ -25,7 +25,7 @@ func WithConfiguration(config *MonitorConfig) MonitorOption {
 // WithLogger ...
 func WithLogger(logger logger.ILogger) MonitorOption {
 	return func(monitor *Monitor) {
-		log = logger
+		monitor.logger = logger
 		monitor.isLogExternal = true
 	}
 }
@@ -33,7 +33,7 @@ func WithLogger(logger logger.ILogger) MonitorOption {
 // WithLogLevel ...
 func WithLogLevel(level logger.Level) MonitorOption {
 	return func(monitor *Monitor) {
-		log.SetLevel(level)
+		monitor.logger.SetLevel(level)
 	}
 }
 
