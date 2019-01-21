@@ -22,7 +22,7 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 	config, simpleConfig, err := NewConfig()
 	service := &Monitor{
 		pm:     manager.NewManager(manager.WithRunInBackground(false)),
-		logger: logger.NewLogDefault("service", logger.InfoLevel),
+		logger: logger.NewLogDefault("monitor", logger.WarnLevel),
 		config: &config.Monitor,
 	}
 
@@ -40,10 +40,6 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 	}
 
 	service.Reconfigure(options...)
-
-	if service.config.Host == "" {
-		service.config.Host = DefaultURL
-	}
 
 	simpleDB := service.pm.NewSimpleDB(&config.Monitor.Db)
 	if err := service.pm.AddDB("db_postgres", simpleDB); err != nil {
