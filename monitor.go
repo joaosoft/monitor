@@ -23,7 +23,7 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 	service := &Monitor{
 		pm:     manager.NewManager(manager.WithRunInBackground(false)),
 		logger: logger.NewLogDefault("monitor", logger.WarnLevel),
-		config: &config.Monitor,
+		config: config.Monitor,
 	}
 
 	if service.isLogExternal {
@@ -32,11 +32,15 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 
 	if err != nil {
 		service.logger.Error(err.Error())
-	} else {
+	} else if config.Monitor != nil {
 		service.pm.AddConfig("config_app", simpleConfig)
 		level, _ := logger.ParseLevel(config.Monitor.Log.Level)
 		service.logger.Debugf("setting log level to %s", level)
 		service.logger.Reconfigure(logger.WithLevel(level))
+	} else {
+		config.Monitor = &MonitorConfig{
+			Host: DefaultURL,
+		}
 	}
 
 	service.Reconfigure(options...)
