@@ -45,7 +45,7 @@ func (interactor *Interactor) GetProcesses(values map[string][]string) (ListProc
 }
 
 func (interactor *Interactor) GetProcess(idProcess string) (*Process, error) {
-	interactor.logger.WithFields(map[string]interface{}{"method": "GetUser"})
+	interactor.logger.WithFields(map[string]interface{}{"method": "CheckUser"})
 	interactor.logger.Infof("getting process %s", idProcess)
 	if category, err := interactor.storageDB.GetProcess(idProcess); err != nil {
 		interactor.logger.WithFields(map[string]interface{}{"error": err.Error()}).

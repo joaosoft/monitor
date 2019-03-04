@@ -16,14 +16,14 @@ type ErrorResponse struct {
 }
 
 type GetProcessRequest struct {
-	IdProcess string `json:"id" validate:"nonzero"`
+	IdProcess string `json:"id" validate:"notzero"`
 }
 
 type CreateProcessRequest struct {
 	Body struct {
-		IdProcess   string         `json:"id_process" validate:"nonzero"`
-		Type        string         `json:"type" validate:"nonzero"`
-		Name        string         `json:"name" validate:"nonzero"`
+		IdProcess   string         `json:"id_process" validate:"notzero"`
+		Type        string         `json:"type" validate:"notzero"`
+		Name        string         `json:"name" validate:"notzero"`
 		Description string         `json:"description"`
 		DateFrom    *types.Date    `json:"date_from" validate:"special={date}"`
 		DateTo      *types.Date    `json:"date_to" validate:"special={date}"`
@@ -36,11 +36,11 @@ type CreateProcessRequest struct {
 }
 
 type UpdateProcessRequest struct {
-	IdProcess string `json:"id_process" validate:"nonzero"`
+	IdProcess string `json:"id_process" validate:"notzero"`
 
 	Body struct {
-		Type        string         `json:"type" validate:"nonzero"`
-		Name        string         `json:"name" validate:"nonzero"`
+		Type        string         `json:"type" validate:"notzero"`
+		Name        string         `json:"name" validate:"notzero"`
 		Description string         `json:"description"`
 		DateFrom    *types.Date    `json:"date_from" validate:"special={date}"`
 		DateTo      *types.Date    `json:"date_to" validate:"special={date}"`
@@ -53,12 +53,12 @@ type UpdateProcessRequest struct {
 }
 
 type UpdateProcessStatusRequest struct {
-	IdProcess string `json:"id_process" validate:"nonzero"`
+	IdProcess string `json:"id_process" validate:"notzero"`
 	Status    Status `json:"status" validate:"options=stopped;running"`
 }
 
 type DeleteProcessRequest struct {
-	IdProcess string `json:"id_process" validate:"nonzero"`
+	IdProcess string `json:"id_process" validate:"notzero"`
 }
 
 type Process struct {

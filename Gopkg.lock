@@ -44,6 +44,15 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/joaosoft/auth-types"
+  packages = [
+    "basic",
+    "jwt"
+  ]
+  revision = "3cbc735f7e25c37fa572263975599a98c2f5f66c"
+
+[[projects]]
+  branch = "master"
   name = "github.com/joaosoft/color"
   packages = ["."]
   revision = "17caec6046388cea5751f441ef6b06a7a572abf2"
@@ -52,7 +61,7 @@
   branch = "master"
   name = "github.com/joaosoft/errors"
   packages = ["."]
-  revision = "14ce6b432e14373c6039c7d9fc6141aaec90fdbf"
+  revision = "dd98851e0d4f418b451d921259cfee63f93864dc"
 
 [[projects]]
   branch = "master"
@@ -64,7 +73,7 @@
   branch = "master"
   name = "github.com/joaosoft/manager"
   packages = ["."]
-  revision = "18b4eb1be4cbb9e55a90e05f5e2ebc4db0afb15f"
+  revision = "2e0055403b3c0b9efc31052f8d9929186c22bad1"
 
 [[projects]]
   branch = "master"
@@ -76,13 +85,13 @@
   branch = "master"
   name = "github.com/joaosoft/validator"
   packages = ["."]
-  revision = "49d3b2b2015c04ee95591f465e2b9120efb0e4a3"
+  revision = "bd17d2b2a0d1f58707a8d3ee9291d50af88096c4"
 
 [[projects]]
   branch = "master"
   name = "github.com/joaosoft/web"
   packages = ["."]
-  revision = "12b774681e6130a6d19128b7379966b67d6623ac"
+  revision = "e62ba757311ce5227e7d63b2f5170df0574e010e"
 
 [[projects]]
   branch = "master"
@@ -174,8 +183,8 @@
 [[projects]]
   name = "github.com/spf13/jwalterweatherman"
   packages = ["."]
-  revision = "4a4406e478ca629068e7768fc33f3f044173c0a6"
-  version = "v1.0.0"
+  revision = "94f6ae3ed3bceceafa716478c5fbf8d29ca601a1"
+  version = "v1.1.0"
 
 [[projects]]
   name = "github.com/spf13/pflag"
@@ -214,13 +223,13 @@
     "acme",
     "acme/autocert"
   ]
-  revision = "7f87c0fbb88b590338857bcb720678c2583d4dea"
+  revision = "8dd112bcdc25174059e45e07517d9fc663123347"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "775f8194d0f9e65c46913c7be783d3d95a29333c"
+  revision = "c2f5717e611cf8e89a852a41081355194d80c943"
 
 [[projects]]
   name = "golang.org/x/text"
