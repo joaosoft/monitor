@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	manager "github.com/joaosoft/manager"
+	migration "github.com/joaosoft/migration/services"
 )
 
 // AppConfig ...
@@ -15,6 +16,7 @@ type AppConfig struct {
 type MonitorConfig struct {
 	Host string           `json:"host"`
 	Db   manager.DBConfig `json:"db"`
+	Migration         *migration.MigrationConfig `json:"migration"`
 	Log  struct {
 		Level string `json:"level"`
 	} `json:"log"`

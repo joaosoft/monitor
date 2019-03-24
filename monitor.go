@@ -7,6 +7,7 @@ import (
 
 	"github.com/joaosoft/logger"
 	"github.com/joaosoft/manager"
+	migration "github.com/joaosoft/migration/services"
 )
 
 type Monitor struct {
@@ -44,6 +45,16 @@ func NewMonitor(options ...MonitorOption) (*Monitor, error) {
 	}
 
 	service.Reconfigure(options...)
+
+	// execute migrations
+	migrationService, err := migration.NewCmdService(migration.WithCmdConfiguration(service.config.Migration))
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err := migrationService.Execute(migration.OptionUp, 0, migration.ExecutorModeDatabase); err != nil {
+		return nil, err
+	}
 
 	simpleDB := service.pm.NewSimpleDB(&config.Monitor.Db)
 	if err := service.pm.AddDB("db_postgres", simpleDB); err != nil {

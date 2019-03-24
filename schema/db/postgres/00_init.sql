@@ -1,4 +1,6 @@
-CREATE SCHEMA monitor;
+
+-- migrate up
+CREATE SCHEMA IF NOT EXISTS "monitor";
 
 -- GLOBAL
 CREATE OR REPLACE FUNCTION monitor.function_updated_at()
@@ -56,3 +58,12 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_process_history
 AFTER INSERT OR UPDATE OR DELETE ON monitor.process
     FOR EACH ROW EXECUTE PROCEDURE function_process_history();
+
+
+-- migrate down
+DROP TRIGGER trigger_process_history ON monitor.process;
+DROP TRIGGER trigger_process_updated_at on monitor.process;
+DROP FUNCTION monitor.function_updated_at();
+
+DROP TABLE monitor.process_HISTORY;
+DROP TABLE monitor.process;

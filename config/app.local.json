@@ -7,6 +7,19 @@
     },
     "log": {
       "level": "info"
+    },
+    "migration": {
+      "path": {
+        "database": "schema/db/postgres"
+      },
+      "db": {
+        "schema": "monitor",
+        "driver": "postgres",
+        "datasource": "postgres://user:password@localhost:7000/postgres?sslmode=disable&search_path=monitor"
+      },
+      "log": {
+        "level": "info"
+      }
     }
   },
   "manager": {
