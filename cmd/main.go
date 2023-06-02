@@ -1,7 +1,7 @@
 package main
 
 import (
-	"monitor"
+	"github.com/joaosoft/monitor"
 )
 
 func main() {
