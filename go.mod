@@ -7,7 +7,7 @@ require (
 	github.com/joaosoft/logger v0.0.0-20230531142923-753c0a3e836a
 	github.com/joaosoft/manager v0.0.0-20230531145924-a549066d2284
 	github.com/joaosoft/migration v0.0.0-20230531143955-8d9130f5a39d
-	github.com/joaosoft/types v0.0.0-20190311002638-df80791c8b7a
+	github.com/joaosoft/types v0.0.0-20240320151602-0daf8d6dfce6
 	github.com/joaosoft/validator v0.0.0-20230531142908-28a5b2f72266
 	github.com/joaosoft/web v0.0.0-20230531143830-cd31d8a8c35e
 	github.com/labstack/gommon v0.4.0

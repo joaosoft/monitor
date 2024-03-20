@@ -143,8 +143,8 @@ github.com/joaosoft/manager v0.0.0-20230531145924-a549066d2284 h1:mQ/SgLQ678v+k1
 github.com/joaosoft/manager v0.0.0-20230531145924-a549066d2284/go.mod h1:GYebm9SVc7PdFY11laaRNT6rdTpHXHip0J4VfW9QCHo=
 github.com/joaosoft/migration v0.0.0-20230531143955-8d9130f5a39d h1:X1X7p7cCo+WbpzuKJLt/K792WFAZNCGUYDnEQJVGk4A=
 github.com/joaosoft/migration v0.0.0-20230531143955-8d9130f5a39d/go.mod h1:O/y4DshoBmxEE7AjQMK1kdkcDDSJTdxH8h1EcyrLG7I=
-github.com/joaosoft/types v0.0.0-20190311002638-df80791c8b7a h1:ySkkRCqR84COi5sDCMYpwSQ0L6icuT5spPaA+XEUd/E=
-github.com/joaosoft/types v0.0.0-20190311002638-df80791c8b7a/go.mod h1:ytpsZ8wR62j3Xm8wSp1SF+9XOp7rxrlrPcavaC2XfPY=
+github.com/joaosoft/types v0.0.0-20240320151602-0daf8d6dfce6 h1:00RREIFwyGE1vPb7BuWkd9aLVP259Vn1rpAiLEWpZWI=
+github.com/joaosoft/types v0.0.0-20240320151602-0daf8d6dfce6/go.mod h1:VRHviLLrjLhWhq8SNgB4MrE+NzZNFol4AGokoZQHXrI=
 github.com/joaosoft/validator v0.0.0-20230531142908-28a5b2f72266 h1:cF3SadVnTY1vwZR/Qu87MZKalKMlbVHdx6ekScwj0q0=
 github.com/joaosoft/validator v0.0.0-20230531142908-28a5b2f72266/go.mod h1:8COIz1FfusHYOuenZCyCwVyssMIJpzV74yRm/Zng3PU=
 github.com/joaosoft/web v0.0.0-20230531143830-cd31d8a8c35e h1:6iZ5BpR2d45gA/0mFiVD/TdE2MrMzuep90ts8lHg6QU=

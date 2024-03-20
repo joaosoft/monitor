@@ -20,7 +20,7 @@ func (s *Status) Scan(src interface{}) error {
 		return nil
 	}
 
-	return errors.New(errors.ErrorLevel, 0, "pq: cannot convert %T to %T", src, *s)
+	return errors.New(errors.LevelError, 0, "pq: cannot convert %T to %T", src, *s)
 }
 
 func (s Status) Value() (driver.Value, error) {
